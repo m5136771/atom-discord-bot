@@ -1,12 +1,12 @@
 {
-  "name": "nodejs",
-  "version": "1.0.0",
+  "name": "atom-discord-bot",
+  "version": "0.2.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "MAD",
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^1.1.0",

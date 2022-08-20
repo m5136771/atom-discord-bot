@@ -10,11 +10,7 @@ const { Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 
 //import secrets
-const myToken = process.env['token']
-const guildId = process.env['guildId']
-const clientId = process.env['clientId']
-// if not using repl: const { clientId, guildId, token } = require('./config.json');
-
+const { myToken, guildId, clientId } = require('./config.json');
 
 const commands = [// array for building commands: new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
 	]
