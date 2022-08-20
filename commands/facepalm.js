@@ -1,6 +1,10 @@
+import { weekNumber, chosenImagePath } from '../constants';
+
+const path = require('node:path');
 const { SlashCommandBuilder } = require('discord.js');
 const CronJob = require('cron').CronJob;
-const images = require('../constants');
+
+const fileName = path.basename(chosenImagePath);
 
 
 module.exports = {
@@ -11,16 +15,23 @@ module.exports = {
 		const general = interaction.client.channels.cache.get('1001005535929323545');
 
 		const job = new CronJob(
-			'0 * * * * *', // cronTime [required] the time to fire
+			'0 * * * * *',
 			function onTick() {
-				general.send('onTick triggered.');
-				console.log('onTick triggered.');
-			}, // onTick [required] the function to run at cronTime
-			//function onComplete() {
-				//general.send('you actually did it.. job is now stopped');
-			//}, //onComplete [optional] function called with job.stop()
-			true, //start [optional] default is 'false'
-			'America/New_York', //timeZone [optional]
+				general.send(`onTick triggered.\nThe current week number is ${weekNumber} and the img for this week is stored in ${chosenImagePath}.`)
+					.then(message => console.log(`Sent message: ${message.content}`))
+					.catch(console.error);
+				general.send({
+					files: [{
+						attachment: chosenImagePath,
+						name: fileName,
+						description: 'description of image here'
+					}]
+				})
+					.then(console.log)
+					.catch(console.error);
+			},
+			true,
+			'America/New_York',
 		);
 
 		job.start;
