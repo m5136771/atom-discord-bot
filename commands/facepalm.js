@@ -9,7 +9,7 @@ module.exports = {
 		const general = interaction.client.channels.cache.get('1001005535929323545');
 
 		const job = new CronJob(
-			'0 51 21 * * 5', // cronTime [required] the time to fire
+			'0 * * * * *', // cronTime [required] the time to fire
 			function onTick() {
 				general.send('onTick triggered.');
 				console.log('onTick triggered.');
