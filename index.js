@@ -4,9 +4,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+
 // discord dependencies
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const myToken = process.env['token'];
+const { token } = require('./config.json');
 
 // create new client instance to start bot and connect to discord api
 // GatewayIntentBits.Guild is a Discord method that gives permissions to the bot
@@ -65,6 +66,7 @@ for (const file of commandFiles) {
 	// so now the Collection is filled with { 'string' => intValue }
 }
 
+
 // when there is an interaction, it will run through this function.
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isChatInputCommand()) return;
@@ -85,7 +87,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 // login to discord with your client's api key
-client.login(myToken);
+client.login(token);
 
 // ./package.json field 'main' defines the path for which file to execute on start
 // 'node .' command starts the bot

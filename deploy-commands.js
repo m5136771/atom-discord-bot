@@ -10,20 +10,19 @@ const { Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 
 //import secrets
-const myToken = process.env['token']
-const guildId = process.env['guildId']
 const clientId = process.env['clientId']
-// if not using repl: const { clientId, guildId, token } = require('./config.json');
-
+const { clientId, guildId, token } = require('./config.json');
 
 const commands = [// array for building commands: new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
 	]
 // if commands built that way, followed by: .map(command => command.toJSON());
 
+
 // same as in index.js
 // pull an array of all .js files in 'commands' folder
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
 
 // same as in index.js
 for (const file of commandFiles) {
@@ -33,17 +32,16 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-// ?
-const rest = new REST({ version: '10' }).setToken(myToken);
+const rest = new REST({ version: '10' }).setToken(token);
 
-// PUT request to bot's command file in discord server
+// PUT request to bot's global command file
 // returns success message when successful
 (async () => {
 	try {
 		console.log('Started refreshing application (/) commands.');
 
 		await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(clientId),
 			{ body: commands },
 		);
 
@@ -53,18 +51,16 @@ const rest = new REST({ version: '10' }).setToken(myToken);
 	}
 })();
 
-
-
 // ---TO DELETE COMMANDS---
 // Go to bot settings in server and copy id of the command
 // uncomment this code and run 'node deploy-commands.js'
 
 // for guild-based commands
-/*rest.delete(Routes.applicationGuildCommand(clientId, guildId, 'commandId'))
+/* rest.delete(Routes.applicationGuildCommand(clientId, guildId, 'commandId'))
 	.then(() => console.log('Successfully deleted guild command'))
-	.catch(console.error);*/
+	.catch(console.error); */
 
 // for global commands
-/*rest.delete(Routes.applicationCommand(clientId, 'commandId'))
+/* rest.delete(Routes.applicationCommand(clientId, 'commandId'))
 	.then(() => console.log('Successfully deleted application command'))
-	.catch(console.error);*/
+	.catch(console.error); */
