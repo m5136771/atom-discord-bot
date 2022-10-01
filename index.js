@@ -1,7 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-//const token = process.env['token']
 const { token, mongo_uri } = require('./config.json');
 const { mongoose } = require('mongoose');
 
@@ -21,23 +20,23 @@ for (const file of eventFiles) {
 }
 
 client.commands = new Collection();
-const commandsPath = path.join(__dirname, 'commands')
+const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
-	
-	client.commands.set(command.data.name, command);
-}	
 
-mongoose.connect(config.mongoDB, {
+	client.commands.set(command.data.name, command);
+}
+
+mongoose.connect(mongo_uri, {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
 }).then(() => {
-	console.log('Connected to MongoDB')
+	console.log('Connected to MongoDB');
 }).catch((err) => {
-	console.log('Unable to connect to MongoDB Database.\nError: ' + err)
-})
+	console.log('Unable to connect to MongoDB Database.\nError: ' + err);
+});
 
 client.login(token);
