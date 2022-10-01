@@ -2,12 +2,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-
-const { clientId, token } = require('./config.json');
+const { clientId, token } = require('../config.json');
 
 const commands = [];
-
-const commandsPath = path.join(__dirname, 'commands');
+const commandsPath = path.join(__dirname, '../commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -34,16 +32,15 @@ const rest = new REST({ version: '10' }).setToken(token);
 	}
 })();
 
-// ---TO DELETE COMMANDS---
-// Go to bot settings in server and copy id of the command
-// uncomment this code and run 'node deploy-commands.js'
+// DELETE COMMANDS
+// Go to integration settings in server to copy commandId
 
 // for guild-based commands
-/* rest.delete(Routes.applicationGuildCommand(clientId, guildId, 'commandId'))
-	.then(() => console.log('Successfully deleted guild command'))
-	.catch(console.error); */
+/* rest.delete(Routes.applicationGuildCommand(clientId, guildId, '1007486927747952673'))
+		.then(() => console.log('Successfully deleted guild command'))
+		.catch(console.error); */
 
 // for global commands
-/* rest.delete(Routes.applicationCommand(clientId, '1010335158513172571'))
-	.then(() => console.log('Successfully deleted application command'))
-	.catch(console.error); */
+/* rest.delete(Routes.applicationCommand(clientId, 'commandId'))
+		.then(() => console.log('Successfully deleted application command'))
+		.catch(console.error); */
