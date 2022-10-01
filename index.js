@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token, mongo_uri } = require('./config.json');
+const { token, mongo } = require('./config.json');
 const { mongoose } = require('mongoose');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -30,7 +30,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-mongoose.connect(mongo_uri, {
+mongoose.connect(mongo, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 }).then(() => {
