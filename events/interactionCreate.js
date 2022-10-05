@@ -4,8 +4,9 @@ module.exports = {
 		if (!interaction.isChatInputCommand() && !interaction.isButton()) return;
 
 		const buttonCommand = interaction.client.buttonCommands.get(interaction.customId);
+		const menuCommand = interaction.client.menuCommands.get(interaction.customId);
 		const command = interaction.client.commands.get(interaction.commandName);
-		if (!command && !buttonCommand) return;
+		if (!command && !buttonCommand && !menuCommand) return;
 
 		if (interaction.isChatInputCommand()) {
 			try {
@@ -26,6 +27,18 @@ module.exports = {
 				console.error(error);
 				interaction.reply({
 					content: 'There was an error while executing this button\'s command!',
+					ephemeral: true,
+				});
+			}
+		};
+
+		if (interaction.isSelectMenu()) {
+			try {
+				menuCommand.execute(interaction);
+			} catch (error) {
+				console.error(error);
+				interaction.reply({
+					content: 'There was an error while executing this menu\'s command!',
 					ephemeral: true,
 				});
 			}

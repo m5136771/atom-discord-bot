@@ -41,6 +41,17 @@ for (const file of buttonCommandFiles) {
 	client.buttonCommands.set(buttonCommand.customId, buttonCommand);
 }
 
+client.menuCommands = new Collection();
+const menuCommandsPath = path.join(__dirname, 'menu-commands');
+const menuCommandFiles = fs.readdirSync(menuCommandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of menuCommandFiles) {
+	const filePath = path.join(menuCommandsPath, file);
+	const menuCommand = require(filePath);
+
+	client.menuCommands.set(menuCommand.customId, menuCommand);
+}
+
 connect(mongo, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
