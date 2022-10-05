@@ -49,10 +49,10 @@ module.exports = {
 		const faction = interaction.options.getString('faction');
 		const fcolor = interaction.options.getString('color');
 		const cclass = interaction.options.getString('class');
-		
+
 		const intGuild = interaction.guild;
 		const intGuildId = interaction.guild.id;
-		
+
 		const intUserId = interaction.user.id;
 
 		const newProfile = new Profile({
