@@ -23,7 +23,7 @@ const embed = new EmbedBuilder()
 const row = new ActionRowBuilder()
 	.addComponents(
 		new ButtonBuilder()
-			.setCustomId('start-game')
+			.setCustomId('choose-length')
 			// .setDisabled(true)
 			// .setEmoji('')
 			.setLabel('Ok')
