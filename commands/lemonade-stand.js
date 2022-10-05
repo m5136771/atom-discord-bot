@@ -40,7 +40,6 @@ module.exports = {
 
 	async execute(interaction) {
 		await interaction.reply({
-			content:'Ready to start a business??',
 			ephemeral: true,
 			embeds: [embed],
 			components: [row],

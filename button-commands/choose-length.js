@@ -14,10 +14,12 @@ const row = new ActionRowBuilder()
 		new ButtonBuilder()
 			.setCustomId('fourteen-days')
 			.setLabel('14 Days')
+			.setDisabled(true)
 			.setStyle(ButtonStyle.Primary),
 		new ButtonBuilder()
 			.setCustomId('thirty-days')
 			.setLabel('30 Days')
+			.setDisabled(true)
 			.setStyle(ButtonStyle.Danger),
 	]);
 
@@ -25,7 +27,7 @@ module.exports = {
 	customId: 'choose-length',
 
 	async execute(interaction) {
-		await interaction.reply({
+		await interaction.update({
 			ephemeral: true,
 			embeds: [embed],
 			components: [row],
