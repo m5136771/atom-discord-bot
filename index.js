@@ -30,6 +30,17 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
+client.buttonCommands = new Collection();
+const buttonCommandsPath = path.join(__dirname, 'button-commands');
+const buttonCommandFiles = fs.readdirSync(buttonCommandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of buttonCommandFiles) {
+	const filePath = path.join(buttonCommandsPath, file);
+	const buttonCommand = require(filePath);
+
+	client.buttonCommands.set(buttonCommand.customId, buttonCommand);
+}
+
 connect(mongo, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
