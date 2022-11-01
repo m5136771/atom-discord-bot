@@ -29,7 +29,10 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 	};
 
 	try {
-	  client.channels.cache.get('1036805916223340646').send('HELLO');
+	  client.channels.cache.get('1036805916223340646')
+	  	.send(
+		`New Status for id: ${serverLogChannel} tag: ${newPresence.user.tag}:  ${oldPresence.status} is now ${newPresence.status}`
+		);
 	} catch (error) {
 	  console.log(error);
 	}
