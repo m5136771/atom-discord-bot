@@ -6,7 +6,6 @@ const { token, mongo_uri } = require('./config.json');
 const { mongoose } = require('mongoose');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
-const serverLogChannel = client.channels.cache.get('1036805916223340646');
 
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
@@ -22,20 +21,27 @@ for (const file of eventFiles) {
 }
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
-	if (!oldPresence) {
-		console.log(`New Status for ${newPresence.user.tag}:  ${newPresence.status}`);
-	} else {
-		console.log(`New Status for id: ${serverLogChannel} tag: ${newPresence.user.tag}:  ${oldPresence.status} is now ${newPresence.status}`);
-	};
+	let userTag = newPresence.user.tag
 
 	try {
-	  client.channels.cache.get('1036805916223340646')
-	  	.send(
-		`New Status for id: ${serverLogChannel} tag: ${newPresence.user.tag}:  ${oldPresence.status} is now ${newPresence.status}`
-		);
-	} catch (error) {
-	  console.log(error);
-	}
+		if (oldPresence.status === 'undefined' || oldPresence.status === null && newPresence.status === 'online') {
+			messageText = `🟢 ${userTag} logged on!`
+		} else if (newPresence.status === 'offline') {
+			messageText = `🔴 ${userTag} logged off!`;
+		} else if (oldPresence.status === 'offline' && newPresence.status === 'online') {
+			messageText = `🟢 ${userTag} logged on! (from invisible?)`;
+		} else if (oldPresence.status === newPresence.status) {
+			return;
+		} else {
+			messageText = `${userTag} changed status from ${oldPresence.status} to ${newPresence.status}`
+		};
+		
+		client.channels.cache.get('1036805916223340646')
+		.send(`${messageText}`);
+
+	} catch (e) {
+		console.log(e);
+	};
 });
 
 
