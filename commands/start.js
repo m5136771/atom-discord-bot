@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const Profile = require('../db/schema/profile');
+const Character = require('../db/schema/character');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -55,7 +55,7 @@ module.exports = {
 		
 		const intUserId = interaction.user.id;
 
-		const newProfile = new Profile({
+		const newChar = new Character({
 			discordId: intUserId,
 			discordName: interaction.user.name,
 
@@ -68,14 +68,14 @@ module.exports = {
 			cclass: cclass,
 		});
 
-		await newProfile.save();
+		await newChar.save();
 
 		await interaction.reply(
 			`Yes! That's it! You're **${name}**, the **${cclass}** from **${faction}**!!
 			\nBut.. I never knew your favorite color was **${fcolor}**...
 			\nNo matter! You're here now! Welcome, **${name}**! And good luck!
 			\n
-			\nTesting DB: ${newProfile}`,
+			\nTesting DB: ${newChar}`,
 		);
 	},
 };
