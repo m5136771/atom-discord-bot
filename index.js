@@ -5,7 +5,8 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token, mongo_uri } = require('./config.json');
 const { mongoose } = require('mongoose');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
+const serverLogChannel = client.channels.cache.get('1036805916223340646');
 
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
@@ -20,6 +21,21 @@ for (const file of eventFiles) {
 	}
 }
 
+client.on('presenceUpdate', (oldPresence, newPresence) => {
+	if (!oldPresence) {
+		console.log(`New Status for ${newPresence.user.tag}:  ${newPresence.status}`);
+	} else {
+		console.log(`New Status for id: ${serverLogChannel} tag: ${newPresence.user.tag}:  ${oldPresence.status} is now ${newPresence.status}`);
+	};
+
+	try {
+	  client.channels.cache.get('1036805916223340646').send('HELLO');
+	} catch (error) {
+	  console.log(error);
+	}
+});
+
+
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands')
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -31,13 +47,35 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }	
 
-mongoose.connect(config.mongoDB, {
+client.buttonCommands = new Collection();
+const buttonCommandsPath = path.join(__dirname, 'button-commands');
+const buttonCommandFiles = fs.readdirSync(buttonCommandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of buttonCommandFiles) {
+	const filePath = path.join(buttonCommandsPath, file);
+	const buttonCommand = require(filePath);
+
+	client.buttonCommands.set(buttonCommand.customId, buttonCommand);
+}
+
+client.menuCommands = new Collection();
+const menuCommandsPath = path.join(__dirname, 'menu-commands');
+const menuCommandFiles = fs.readdirSync(menuCommandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of menuCommandFiles) {
+	const filePath = path.join(menuCommandsPath, file);
+	const menuCommand = require(filePath);
+
+	client.menuCommands.set(menuCommand.customId, menuCommand);
+}
+
+/* connect(mongo, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 }).then(() => {
 	console.log('Connected to MongoDB')
 }).catch((err) => {
-	console.log('Unable to connect to MongoDB Database.\nError: ' + err)
-})
+	console.log('Unable to connect to MongoDB Database.\nError: ' + err);
+}); */
 
 client.login(token);
