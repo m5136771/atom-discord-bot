@@ -76,34 +76,4 @@ for (const file of menuCommandFiles) {
 	client.menuCommands.set(menuCommand.customId, menuCommand);
 }
 
-/* connect(mongo, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-}).then(() => {
-	console.log('Connected to MongoDB')
-}).catch((err) => {
-	console.log('Unable to connect to MongoDB Database.\nError: ' + err);
-}); */
-client.buttonCommands = new Collection();
-const buttonCommandsPath = path.join(__dirname, 'button-commands');
-const buttonCommandFiles = fs.readdirSync(buttonCommandsPath).filter(file => file.endsWith('.js'));
-
-for (const file of buttonCommandFiles) {
-	const filePath = path.join(buttonCommandsPath, file);
-	const buttonCommand = require(filePath);
-
-	client.buttonCommands.set(buttonCommand.customId, buttonCommand);
-}
-
-client.menuCommands = new Collection();
-const menuCommandsPath = path.join(__dirname, 'menu-commands');
-const menuCommandFiles = fs.readdirSync(menuCommandsPath).filter(file => file.endsWith('.js'));
-
-for (const file of menuCommandFiles) {
-	const filePath = path.join(menuCommandsPath, file);
-	const menuCommand = require(filePath);
-
-	client.menuCommands.set(menuCommand.customId, menuCommand);
-}
-
 client.login(token);
