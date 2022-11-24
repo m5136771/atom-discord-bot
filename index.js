@@ -3,8 +3,9 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
 
+// EVENTS HANDLER
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
@@ -18,6 +19,7 @@ for (const file of eventFiles) {
 	}
 }
 
+// PRESENCE UPDATER (LOG ON / LOG OFF)
 client.on('presenceUpdate', (oldPresence, newPresence) => {
 	let userTag = newPresence.user.tag
 
@@ -43,6 +45,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 });
 
 
+// SET UP COMMANDS COLLECTION
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -54,6 +57,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
+// SET UP BUTTON-COMMANDS COLLECTION
 client.buttonCommands = new Collection();
 const buttonCommandsPath = path.join(__dirname, 'button-commands');
 const buttonCommandFiles = fs.readdirSync(buttonCommandsPath).filter(file => file.endsWith('.js'));
@@ -65,6 +69,7 @@ for (const file of buttonCommandFiles) {
 	client.buttonCommands.set(buttonCommand.customId, buttonCommand);
 }
 
+// SET UP MENU-COMMANDS COLLECTION
 client.menuCommands = new Collection();
 const menuCommandsPath = path.join(__dirname, 'menu-commands');
 const menuCommandFiles = fs.readdirSync(menuCommandsPath).filter(file => file.endsWith('.js'));
