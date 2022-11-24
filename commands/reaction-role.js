@@ -1,4 +1,4 @@
-const { ActionRowBuilder, Base, ButtonBuilder, ButtonStyle, EmbedBuilder, GuildMember, GuildMemberManager, SlashCommandBuilder, Guild, GuildMemberRoleManager } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 // BUILD RESPONSE
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 					option.setName('emoji')
 						.setDescription('Input the emoji you want to associate with a role.')
 						.setRequired(true))
-				
+
 				.addRoleOption(option =>
 					option.setName('role')
 						.setDescription('Select the role to give anyone who reacts with the chosen emoji.')
@@ -32,46 +32,47 @@ module.exports = {
 				.addChannelOption(option =>
 					option.setName('channel')
 						.setDescription('Specify which channel the message is in, if not the current channel.')
-						.setRequired(false))
+						.setRequired(false)),
 		)
 
 		// DELETE RR
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName('delete')
-				.setDescription('Remove an existing role-emoji pair')
+				.setDescription('Remove an existing role-emoji pair'),
 		),
-	
-	async execute(interaction) {	
-		const theMember = interaction.member.nickname;
-		console.log(`${theMember}`);
 
-		const options = { member: interaction.member, role: interaction.options.getRole('role'), reason: 'because I said so.'};
 
-		console.log(`Options are: ${options}, User is: ${options.member}, role is ${options.role}, reason is: ${options.reason}`);
-
+	async execute(interaction) {
+		const member = interaction.member;
 		const messageId = interaction.options.getString('message-id');
 		const emoji = interaction.options.getString('emoji');
+		const role = interaction.options.getRole('role');
 		const channel = interaction.options.getChannel('channel') ?? 'No channel provided';
-		
-		
+		const reason = 'because I said so.';
+
+		console.log(`
+			Guild Member: ${member}\n
+			Message ID: ${messageId}\n
+			Emoji: ${emoji}\n
+			Role: ${role}\n
+			Channel: ${channel}
+			Reason: ${reason}
+		`);
+
+
 		// Send Response
 		await interaction.reply(
-			{
-			content: 'success?'
-			
-			/* `\n
-			User: ${user.id}, name is ${user.username}\n
-			Message ID: ${messageId}\n
-			emoji: ${emoji}\n
-			role: ${role}\n
-			channel: ${channel}` */,
+			{ content:`
+				Guild Member: ${member}\n
+				Message ID: ${messageId}\n
+				Emoji: ${emoji}\n
+				Role: ${role}\n
+				Channel: ${channel}
+				Reason: ${reason}`,
 
 			ephemeral: true,
-			//embeds: [embed],
-			//components: [row]
 			},
-			
 		);
 	},
 };
