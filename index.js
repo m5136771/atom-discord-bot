@@ -1,8 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token, mongo } = require('./config.json');
-const { connect } = require('mongoose');
+const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -51,14 +50,5 @@ for (const file of menuCommandFiles) {
 
 	client.menuCommands.set(menuCommand.customId, menuCommand);
 }
-
-connect(mongo, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-}).then(() => {
-	console.log('Connected to MongoDB');
-}).catch((err) => {
-	console.log('Unable to connect to MongoDB Database.\nError: ' + err);
-});
 
 client.login(token);
