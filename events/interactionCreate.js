@@ -47,8 +47,14 @@ module.exports = {
 			}
 		};
 
-		console.log(
-			`${interaction.user.tag} in #${interaction.channel.name} triggered the interaction ${interaction.customId}`,
+		console.log(`
+			${interaction.createdAt}\n
+			The interaction named: ${interaction.name} with ID: ${interaction.id} and type: ${interaction.type}\n
+			(custom ID: ${interaction.customId}) and token: ${interaction.token}\n
+			Command Name: ${interaction.commandName}\n
+			Command S
+			was triggered by ${interaction.user.tag} (member: ${interaction.member}) in #${interaction.channel.name}.\n
+			Guild: ${interaction.guild} with ID: ${interaction.guildId} and locale: ${interaction.guildLocale}`,
 		);
 	},
 };
