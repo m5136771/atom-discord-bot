@@ -38,9 +38,21 @@ module.exports = {
 		const biggestWinOption = interaction.options.getString('biggest-win') ?? 'No positive feedback provided';
 		const biggestOppOption = interaction.options.getString('biggest-opportunity') ?? 'No opportunistic feedback provided';
 
-		if (interaction.channelId === '1007098501303377998') {
+		if (interaction.channelId === '1018955161026179112') {
 			embed.setColor('Purple');
 			embed.setAuthor({ name: 'AP CSP' });
+			// , iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org'
+		} else if (interaction.channelId === '1018956280045518888') {
+			embed.setColor('Orange');
+			embed.setAuthor({ name: 'Game Design' });
+			// , iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org'
+		} else if (interaction.channelId === '1017055889099862056') {
+			embed.setColor('Blue');
+			embed.setAuthor({ name: 'Hackathon Team' });
+			// , iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org'
+		} else if (interaction.channelId === '1021479103720865945') {
+			embed.setColor('Yellow');
+			embed.setAuthor({ name: 'Web Design' });
 			// , iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org'
 		}
 
