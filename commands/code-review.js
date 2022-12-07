@@ -1,26 +1,9 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder, time } = require('discord.js');
-
-const date = new Date();
-// const timeString = time(date);
-const relative = time(date, 'R');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 const embed = new EmbedBuilder()
 	.setTitle('Code Review')
-	.setDescription(`Submitted ${relative}`)
 	.setThumbnail('https://cdn-icons-png.flaticon.com/512/6404/6404558.png')
-	// .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
 	.setImage('https://res.cloudinary.com/practicaldev/image/fetch/s--ika8MZkM--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uvxkt270iwrz8dlhx6x1.png');
-	// .setTimestamp()
-	// .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
-
-const row = new ActionRowBuilder()
-	.addComponents(
-		new ButtonBuilder()
-			.setCustomId('approve')
-			.setLabel('Approve')
-			.setDisabled(true)
-			.setStyle(ButtonStyle.Primary),
-	);
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -51,6 +34,7 @@ module.exports = {
 	async execute(interaction) {
 		const developerOption = interaction.options.getUser('developer');
 		const reviewerOption = interaction.options.getUser('reviewer');
+		const link = interaction.options.getString('review-notes');
 		const biggestWinOption = interaction.options.getString('biggest-win') ?? 'No positive feedback provided';
 		const biggestOppOption = interaction.options.getString('biggest-opportunity') ?? 'No opportunistic feedback provided';
 
@@ -60,6 +44,7 @@ module.exports = {
 			// , iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org'
 		}
 
+		embed.setDescription(`Full review notes here: ${link}`);
 		embed.setURL(interaction.options.getString('review-notes'));
 		embed.addFields(
 			{ name: 'Developer', value: `👨‍💻 ${developerOption}`, inline: true },
@@ -69,10 +54,8 @@ module.exports = {
 			{ name: 'Biggest Opportunity', value: `${biggestOppOption}` },
 		);
 
-		// if person receiving review, change .setDisabled(false)
-
 		await interaction.reply(
-			{ ephemeral: false, embeds: [embed], components: [row] },
+			{ ephemeral: false, embeds: [embed] },
 		);
 	},
 };
