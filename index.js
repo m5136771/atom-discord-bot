@@ -20,14 +20,12 @@ for (const file of eventFiles) {
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
 	let userTag = newPresence.user.tag
-
+	
 	try {
-		if (oldPresence.status === 'undefined' || oldPresence.status === null && newPresence.status === 'online') {
+		if ((!oldPresence.status || oldPresence.status === 'offline') && newPresence.status === 'online') {
 			messageText = `🟢 ${userTag} logged on!`
 		} else if (newPresence.status === 'offline') {
-			messageText = `🔴 ${userTag} logged off!`;
-		} else if (oldPresence.status === 'offline' && newPresence.status === 'online') {
-			messageText = `🟢 ${userTag} logged on! (from invisible?)`;
+			messageText = `🔴 ${userTag} is offline.`;
 		} else if (oldPresence.status === newPresence.status) {
 			return;
 		} else {
@@ -41,6 +39,8 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 		console.log(e);
 	};
 });
+
+
 
 
 client.commands = new Collection();
