@@ -19,11 +19,12 @@ for (const file of eventFiles) {
 }
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
-	let userTag = newPresence.user.tag
-	
+	const userTag = newPresence.user.tag;
+	let messageText = '';
+
 	try {
 		if ((!oldPresence.status || oldPresence.status === 'offline') && newPresence.status === 'online') {
-			messageText = `🟢 ${userTag} logged on!`
+			messageText = `🟢 ${userTag} logged on!`;
 		} else if (newPresence.status === 'offline') {
 			messageText = `🔴 ${userTag} is offline.`;
 		} else if (oldPresence.status === newPresence.status) {
@@ -31,16 +32,14 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 		} else {
 			messageText = `${userTag} changed status from ${oldPresence.status} to ${newPresence.status}`
 		};
-		
+
 		client.channels.cache.get('1036805916223340646')
-		.send(`${messageText}`);
+			.send(`${messageText}`);
 
 	} catch (e) {
 		console.log(e);
 	};
 });
-
-
 
 
 client.commands = new Collection();
