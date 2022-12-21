@@ -50,7 +50,7 @@ module.exports = {
 		};
 
 		console.log(
-			`${interaction.user.tag} in #${interaction.channel.name} triggered the interaction ${interaction.customId}`,
+			`${interaction.user.tag} in #${interaction.channel.name} triggered the interaction ${interaction}`,
 		);
 	},
 };
