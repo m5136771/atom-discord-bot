@@ -1,4 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
+const cModel = require('../data/competency-model.json');
 
 const embed = new EmbedBuilder()
 	.setTitle('Behavioral Observation')
@@ -12,36 +13,36 @@ const compSelectMenu = new ActionRowBuilder()
 			.setPlaceholder('Choose Competency...')
 			.addOptions(
 				{
-					label: 'Teamwork',
-					value: 'tw',
+					label: `${cModel.competencies[0].name}`,
+					value: `${cModel.competencies[0].abbrv}`,
 				},
 				{
-					label: 'Logical Thinking',
-					value: 'lgt',
+					label: `${cModel.competencies[1].name}`,
+					value: `${cModel.competencies[1].abbrv}`,
 				},
 				{
-					label: 'End-user Focus',
-					value: 'euf',
+					label: `${cModel.competencies[2].name}`,
+					value: `${cModel.competencies[2].abbrv}`,
 				},
 				{
-					label: 'Curiosity',
-					value: 'cr',
+					label: `${cModel.competencies[3].name}`,
+					value: `${cModel.competencies[3].abbrv}`,
 				},
 				{
-					label: 'Grit',
-					value: 'grt',
+					label: `${cModel.competencies[4].name}`,
+					value: `${cModel.competencies[4].abbrv}`,
 				},
 				{
-					label: 'Leadership',
-					value: 'lsh',
+					label: `${cModel.competencies[5].name}`,
+					value: `${cModel.competencies[5].abbrv}`,
 				},
 				{
-					label: 'Confidence',
-					value: 'cf',
+					label: `${cModel.competencies[6].name}`,
+					value: `${cModel.competencies[6].abbrv}`,
 				},
 				{
-					label: 'Hope',
-					value: 'h',
+					label: `${cModel.competencies[7].name}`,
+					value: `${cModel.competencies[7].abbrv}`,
 				},
 			),
 	]);
@@ -51,8 +52,6 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('log-observation')
 		.setDescription('Log a behavioral observation'),
-
-	// customId: 'competency-select',
 
 	async execute(interaction) {
 

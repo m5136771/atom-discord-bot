@@ -1,0 +1,179 @@
+{
+    "model": "core-competencies",
+    "version": "1.0.1",
+    "competencies": [
+        {
+            "compId": "0",
+            "name": "Teamwork",
+            "abbrv": "tw",
+            "properties": {
+                "difficulty": "1",
+                "behaviors": {
+                    "tw_1": "Openly shares work with others.",
+                    "tw_2": "Actively looks for opportunities to help.",
+                    "tw_3": "Knows how to give and receive honest, helpful feedback.",
+                    "tw_4": "Maximizes the benefits of collaborative tools.",
+                    "tw_5": "Expresses opinions with humility."
+                },
+                "detractors": {
+                    "d_tw_1": "",
+                    "d_tw_2": "",
+                    "d_tw_3": "",
+                    "d_tw_4": "",
+                    "d_tw_5": ""
+                }
+            }
+        },
+        {
+            "compId": "1",
+            "name": "Logical Thinking",
+            "abbrv": "lgt",
+            "properties": {
+                "difficulty": "1",
+                "behaviors": {
+                    "lgt_1": "Approaches projects systematically.",
+                    "lgt_2": "Prioritizes work and quickly decides which resource or tool is best suited to solve a problem.",
+                    "lgt_3": "Analyzes approach often and makes adjustments as needed.",
+                    "lgt_4": "Trusts what can be verified; recognizes all else as belief."
+                },
+                "detractors": {
+                    "d_lgt_1": "",
+                    "d_lgt_2": "",
+                    "d_lgt_3": "",
+                    "d_lgt_4": "",
+                    "d_lgt_5": ""
+                }
+            }
+        },
+        {
+            "compId": "2",
+            "name": "End-user Focus",
+            "abbrv": "euf",
+            "properties": {
+                "difficulty": "2",
+                "behaviors": {
+                    "euf_1": "Develops solutions based on \"fit\" rather than potential difficulty of implementation.",
+                    "euf_2": "Consistently refers back to the user story and user persona to make decisions.",
+                    "euf_3": "Takes due dates seriously and strives to finish work on time.",
+                    "euf_4": "Actively seeks feedback from potential users."
+                },
+                "detractors": {
+                    "d_euf_1": "",
+                    "d_euf_2": "",
+                    "d_euf_3": "",
+                    "d_euf_4": "",
+                    "d_euf_5": ""
+                }
+            }
+        },
+        {
+            "compId": "3",
+            "name": "Curiosity",
+            "abbrv": "cr",
+            "properties": {
+                "difficulty": "2",
+                "behaviors": {
+                    "cr_1": "Asks meaningful questions to understand more.",
+                    "cr_2": "Looks forward to trying something new and unfamiliar.",
+                    "cr_3": "Looks for experience in a variety of areas and disciplines. (UI design, cybersecurity, QA testing, including common terminology and tools).",
+                    "cr_4": "Seeks to know the 'why' behind tasks."
+                },
+                "detractors": {
+                    "d_cr_1": "",
+                    "d_cr_2": "",
+                    "d_cr_3": "",
+                    "d_cr_4": "",
+                    "d_cr_5": ""
+                }
+            }
+        },
+        {
+            "compId": "4",
+            "name": "Grit",
+            "abbrv": "gr",
+            "definition": "Passion and perseverance for long term and meaningful goals.",
+            "properties": {
+                "difficulty": "3",
+                "behaviors": {
+                    "gr_1": "Adapts quickly to changing circumstances and unforeseen issues.",
+                    "gr_2": "Undaunted by challenging tasks.",
+                    "gr_3": "\"Doubles down\" when feeling unsure or confused; takes breaks when appropriate.",
+                    "gr_4": "Feels confident that every problem has a solution.",
+                    "gr_5": "Sees success as a mindset, not as a result."
+                },
+                "detractors": {
+                    "d_gr_1": "",
+                    "d_gr_2": "",
+                    "d_gr_3": "",
+                    "d_gr_4": "",
+                    "d_gr_5": ""
+                }
+            }
+        },
+        {
+            "compId": "5",
+            "name": "Leadership",
+            "abbrv": "lsh",
+            "properties": {
+                "difficulty": "3",
+                "behaviors": {
+                    "lsh_1": "Suggests creative, unique ideas.",
+                    "lsh_2": "Challenges \"the way things are.\"",
+                    "lsh_3": "Begins work without prompting.",
+                    "lsh_4": "\"Owns\" the project at any level of seniority.",
+                    "lsh_5": "Confidently and intentionally accepts self, others, circumstances, and outcomes.",
+                    "lsh_6": "Uses and appreciates freedom."
+                },
+                "detractors": {
+                    "d_lsh_1": "",
+                    "d_lsh_2": "",
+                    "d_lsh_3": "",
+                    "d_lsh_4": "",
+                    "d_lsh_5": ""
+                }
+            }
+        },
+        {
+            "compId": "6",
+            "name": "Confidence",
+            "abbrv": "cf",
+            "definition": "A perception of self as a capable individual.",
+            "properties": {
+                "difficulty": "4",
+                "behaviors": {
+                    "cf_1": "Believe that all your limitations can be overcome.",
+                    "cf_2": "Takes risks that are thoughtful & calculated.",
+                    "cf_3": "Comfortable with (and eventually excited by) complex challenges beyond current ability level. Cast the \"dead, rigid, and too tyrannical order back into the chaos in which it was generated.\""
+                },
+                "detractors": {
+                    "d_cf_1": "Thinks, \"who am I to solve this?\"",
+                    "d_cf_2": "",
+                    "d_cf_3": "",
+                    "d_cf_4": "",
+                    "d_cf_5": ""
+                }
+            }
+        },
+        {
+            "compId": "7",
+            "name": "Hope",
+            "abbrv": "h",
+            "definition": "A perception of the world as a generally positive place where bad things and good things happen.",
+            "properties": {
+                "difficulty": "4",
+                "behaviors": {
+                    "h_1": "Understands how to work within an iterative environment.",
+                    "h_2": "Recognizes potential to achieve anything with sufficient time and effort.",
+                    "h_3": "Believe that nothing is impossible."
+                },
+                "detractors": {
+                    "d_h_1": "Thinks, \"we can't change anything, it just is how it is.\"",
+                    "d_h_2": "",
+                    "d_h_3": "",
+                    "d_h_4": "",
+                    "d_h_5": ""
+                }
+            }
+        }
+    ]
+}
