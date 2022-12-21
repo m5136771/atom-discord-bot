@@ -30,7 +30,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 		} else if (oldPresence.status === newPresence.status) {
 			return;
 		} else {
-			messageText = `${userTag} changed status from ${oldPresence.status} to ${newPresence.status}`
+			messageText = `${userTag} changed status from ${oldPresence.status} to ${newPresence.status}`;
 		};
 
 		client.channels.cache.get('1036805916223340646')
