@@ -13,8 +13,10 @@
     "@discordjs/rest": "^1.0.1",
     "@types/node": "^18.0.6",
     "discord.js": "^14.2.0",
+    "mongoose": "^6.8.1",
     "node": "^18.7.0",
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^3.2.10",
+    "supermemo": "^2.0.17"
   },
   "description": "",
   "devDependencies": {

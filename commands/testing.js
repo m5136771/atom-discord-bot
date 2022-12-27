@@ -1,5 +1,21 @@
 const { SlashCommandBuilder } = require('discord.js');
 
+/* const { supermemo } = require('supermemo');
+
+let item: SuperMemoItem = {
+	interval: 0,
+	repetition: 0,
+	efactor: 2.5,
+  };
+   
+  console.log(item);
+   
+  item = supermemo(item, 5);
+  console.log(item);
+   
+  item = supermemo(item, 4);
+  console.log(item); */
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('testing')

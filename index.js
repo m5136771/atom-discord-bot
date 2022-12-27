@@ -1,7 +1,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+const { mongoUri, token } = require('./config.json');
+const mongoose = require('mongoose');
+
+mongoose.set('strictQuery', false);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
 
@@ -18,7 +21,7 @@ for (const file of eventFiles) {
 	}
 }
 
-client.on('presenceUpdate', (oldPresence, newPresence) => {
+/* client.on('presenceUpdate', (oldPresence, newPresence) => {
 	let userTag = newPresence.user.tag
 
 	try {
@@ -40,7 +43,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 	} catch (e) {
 		console.log(e);
 	};
-});
+}); */
 
 
 client.commands = new Collection();
@@ -76,4 +79,21 @@ for (const file of menuCommandFiles) {
 	client.menuCommands.set(menuCommand.customId, menuCommand);
 }
 
+/* mongoose
+	.connect(mongoUri, {
+		useNewUrlParser: true,
+        useUnifiedTopology: true
+	}).then(() => {
+		console.log('Connected to DB.');
+	}).catch((err) => {
+		console.log(err.message);
+	}); */
+
 client.login(token);
+
+main().catch(err => console.log(err));
+
+async function main() {
+	await mongoose.connect(mongoUri).catch(console.error);
+	console.log('Connected to DB.')
+}
