@@ -1,17 +1,17 @@
-const { mongoose, Schema } = require('mongoose');
+const { model, Schema } = require('mongoose');
 const ObjectId = Schema.Types.ObjectId;
 
-module.exports = mongoose.model('Quiz',  new Schema({
+const quizSchema = new Schema({
 	_id: ObjectId,
 
 	name: String,
 	length: Number,
-	
+
 	questions: [{
 		ques_id: ObjectId,
 		descr: String,
 		answer: String,
-		
+
 		tot_attempts: Number,
 		tot_reps: Number,
 		avg_sec: Number,
@@ -21,4 +21,6 @@ module.exports = mongoose.model('Quiz',  new Schema({
 
 	avg_ef: Number,
 	med_ef: Number,
-}));
+});
+
+module.exports = model('Student', quizSchema, 'students');

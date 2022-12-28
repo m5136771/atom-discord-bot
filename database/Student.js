@@ -3,17 +3,23 @@ const ObjectId = Schema.Types.ObjectId;
 
 const studentSchema = new Schema({
 	_id: ObjectId,
-	disc_id: {type: Number, unique: true },
+	disc_id: { type: String, unique: true },
+	disc_tag: { type: String, unique: true },
 
 	name: String,
 	year: Number,
-	class: {
-		name: String,
-		block: Number
-	},
+	classes: [
+		{
+			block: Number,
+			name: String,
+			abbrv: String,
+			role: String,
+			audit: Boolean,
+		},
+	],
 
 	qresults: [{
-		_id: { type: ObjectId, ref: 'Quiz'},
+		_id: { type: ObjectId, ref: 'Quiz' },
 		taken: Date,
 		questions: [{
 			ques_id: { type: ObjectId, ref: 'Quiz' },
@@ -21,16 +27,15 @@ const studentSchema = new Schema({
 				attempt_id: ObjectId,
 				result: Boolean,
 				seconds: { type: Number, max: 90 },
-				date: Date
+				date: Date,
 			}],
 			tot_attempts: Number,
 			rep_num: Number,
 			ef: { type: Number, default: 2.5 },
 			ilevel: Number,
-			next_up: Date
+			next_up: Date,
 		}],
 	}],
 });
-
 
 module.exports = model('Student', studentSchema, 'students');
