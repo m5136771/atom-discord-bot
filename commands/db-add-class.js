@@ -1,6 +1,12 @@
 /* eslint-disable no-inline-comments */
+/*
 
-/* [ ] Fix needed: If student in more than one class, schema only allows one */
+	Command to add class information to student DB docs.
+	- Also adds students to DB if no entry exists.
+
+	[ ] Fix needed: If student in more than one class, schema only allows one
+
+*/
 
 const { SlashCommandBuilder } = require('discord.js');
 const mongoose = require('mongoose');

@@ -1,3 +1,11 @@
+/*
+
+	Command to update information for a single, named guild member
+
+	[ ] Possible to do a mass update all at once? Update all guild members with whatever info needs update?
+
+*/
+
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {

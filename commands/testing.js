@@ -1,3 +1,10 @@
+/*
+
+	Command to test command functionality.
+	- Also keeps record of previously attempted & functioning code.
+
+*/
+
 const { SlashCommandBuilder } = require('discord.js');
 const config = require('../config.json');
 

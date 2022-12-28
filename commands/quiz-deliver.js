@@ -1,3 +1,13 @@
+/*
+
+	Command to initiate a specified quiz for a specified class.
+
+	[ ] Quiz should deliver questions to individual students based on prior performance.
+	[ ] Send DM with button for student to init quiz when ready?
+	[ ] Allow specifying who is absent?
+
+*/
+
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
