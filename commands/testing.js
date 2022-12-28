@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const config = require('../config.json');
 
 /* const { supermemo } = require('supermemo');
 
@@ -7,25 +8,106 @@ let item: SuperMemoItem = {
 	repetition: 0,
 	efactor: 2.5,
   };
-   
+
   console.log(item);
-   
+
   item = supermemo(item, 5);
   console.log(item);
-   
+
   item = supermemo(item, 4);
   console.log(item); */
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('testing')
-		.setDescription('for testing'),
+		.setDescription('for testing')
+
+		.addRoleOption(option =>
+			option.setName('role')
+				.setDescription('Add all users with this role to DB.')
+				.setRequired(true)),
 
 	async execute(interaction) {
-		await interaction.reply(
-			`Testing:
-			\nClient Logged in as User ('@A.T.O.M.'): ${interaction.client.user}`,
-		);
+		const guild = await interaction.guild.fetch('1001005535245647872');
+		console.log(`Found guild: ${guild.name}`);
+
+		if (!guild.available) {
+			console.log('Guild not available...');
+			return;
+		};
+
+		const channel = await guild.channels.fetch('1018955161026179112');
+		console.log(`Found channel: ${channel.name}`);
+
+		const roleOption = interaction.options.getRole('role');
+		console.log(`Found role: ${roleOption}`);
+
+		let classObj = null;
+		function isClass(roleId) {
+			switch (roleId) {
+			case '1014391186510856202':
+				classObj = config.classInfo.b2;
+				break;
+			case '1014391620323528704':
+				classObj = config.classInfo.b3;
+				break;
+			case '1014391439309938718':
+				classObj = config.classInfo.b4;
+				break;
+			case '1014391323027062794':
+				classObj = config.classInfo.b6;
+				break;
+
+			default:
+				console.log(`Selected Role is not a class!\n
+							Class Roles: ${interaction.guild.roles.toString()}`);
+				break;
+			}
+		}
+		isClass(roleOption.id.toString());
+		console.log(`Class Object Switch Case Name: ${classObj.name}, Abbrv: ${classObj.abbrv}, Block: ${classObj.block}, Role: ${classObj.role}.`);
+
+		const memList = await interaction.guild.members.fetch();
+		console.log(`Found members: ${memList}`);
+
+		memList
+			.filter(member => member.roles.cache.has(roleOption.id))
+			.each(member => console.log(member.displayName));
+		console.log(memList.size);
+
+		const membersColl = await interaction.guild.members.fetch();
+		const discIds = [];
+
+		membersColl
+			.filter(member => member.roles.cache.has(roleOption.id))
+			.each(member => discIds.push(member.id));
+		console.log(discIds.toString());
+		console.log(discIds[0]);
+
+		const first = await interaction.guild.members.fetch(discIds[0]);
+		console.log(`Found Member: ${first.user.username}#${first.user.discriminator}.`);
+
+
+		await interaction.reply({
+			content: `Testing:
+			\n Client Logged in as User ('@A.T.O.M.'): ${interaction.client.user}
+			\n guild "Fetched" by id = ${guild}
+			\n Guild Member Count = ${guild.approximateMemberCount}
+			\n Guild Member List = ${roleOption}
+			\n Channel "Fetched" = ${channel}
+			\n Channel "Fetched" Name = ${channel.name}
+			\n Channel "Fetched" Created = ${channel.createdAt}
+			\n Channel "Fetched" Created Timestamp = ${channel.createdTimestamp}
+			\n Channel "Fetched" Flags = ${channel.flags}
+			\n Channel "Fetched" Id = ${channel.id}
+			\n Channel "Fetched" is Partial? = ${channel.partial}
+			\n Channel "Fetched" Type = ${channel.type}
+			\n Channel "Fetched" URL = ${channel.url}
+			\n Client Uptime = ${guild.client.uptime}
+			\n Client Guilds Cache = ${guild.client.guilds.cache}
+			\n Guild Presence Count = ${guild.approximatePresenceCount}`,
+			ephemeral: true,
+		});
 	},
 };
 
