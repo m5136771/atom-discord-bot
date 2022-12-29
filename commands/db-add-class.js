@@ -10,7 +10,7 @@
 
 const { SlashCommandBuilder } = require('discord.js');
 const mongoose = require('mongoose');
-const Student = require('../database/Student');
+const Student = require('../db/Student');
 const config = require('../config.json');
 
 module.exports = {
