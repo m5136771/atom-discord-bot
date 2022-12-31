@@ -18,7 +18,7 @@ for (const file of eventFiles) {
 	}
 }
 
-client.on('presenceUpdate', (oldPresence, newPresence) => {
+/* client.on('presenceUpdate', (oldPresence, newPresence) => {
 	const userTag = newPresence.user.tag;
 	let messageText = '';
 
@@ -39,7 +39,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
 	} catch (e) {
 		console.log(e);
 	};
-});
+}); */
 
 
 client.commands = new Collection();
