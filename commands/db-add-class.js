@@ -18,7 +18,7 @@ module.exports = {
 		.setName('db-add-class')
 		.setDescription('Add everyone in channel to DB')
 
-		.addrole(option =>
+		.addRoleOption(option =>
 			option.setName('role')
 				.setDescription('Add all users with this role to DB.')
 				.setRequired(true)),
