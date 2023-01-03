@@ -7,12 +7,20 @@ const Quiz = require('../db/models/Quiz');
 const Student = require('../db/models/Student');
 const { easinessCalc, efCalc, daysToNext } = require('../helpers');
 
-const student = Student.findOne({ id: interaction.member.id });
-const question = Quiz.findOne({ _id: interaction.question.id });
-const lastResponse = {
-	correct: interaction.question.isCorrect(),
-	ans_sec: Quiz.questions[x].ans_sec,
-};
+async function findStudent() {
+	const student = Student.findOne({ id: interaction.member.id });
+}
+
+async function findQuestion () {
+	const question = Quiz.findOne({ _id: interaction.question.id });
+}
+
+async function checkResponse () {
+	const lastResponse = {
+		correct: interaction.question.isCorrect(),
+		ans_sec: Quiz.questions[x].ans_sec,
+	};
+}
 
 async function sm2(question, student, lastResponse) {
 	// 1. Split the knowledge into smallest possible items.

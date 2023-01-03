@@ -43,16 +43,6 @@ module.exports = {
 		.setName('quiz-init')
 		.setDescription('for testing')
 
-		.addRoleOption(option =>
-			option.setName('role')
-				.setDescription('To deliver quiz to whole class.')
-				.setRequired(false))
-
-		.addUserOption(option =>
-			option.setName('user')
-				.setDescription('To deliver quiz to individuals.')
-				.setRequired(false))
-
 		.addStringOption(option =>
 			option.setName('qname')
 				.setDescription('Which quiz to deliver.')
@@ -61,6 +51,17 @@ module.exports = {
 					{ name: 'html', value: 'html' },
 					{ name: 'git', value: 'git' },
 				),
+		)
+
+		.addRoleOption(option =>
+			option.setName('role')
+				.setDescription('To deliver quiz to whole class.')
+				.setRequired(false))
+
+		.addUserOption(option =>
+			option.setName('user')
+				.setDescription('To deliver quiz to individuals.')
+				.setRequired(false),
 		),
 
 	async execute(interaction) {
