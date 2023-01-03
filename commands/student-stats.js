@@ -1,10 +1,15 @@
 /*
 
-	Command to initiate a specified quiz for a specified class.
+	Command to analyze & display quiz results.
 
-	[ ] Quiz should deliver questions to individual students based on prior performance.
-	[ ] Send DM with button for student to init quiz when ready?
-	[ ] Allow specifying who is absent?
+	[ ] Allow checking on certain 'stats'.
+		[ ] Total attempted
+		[ ] Total correct
+		[ ] Map of iLevel for all attempted questions
+		[ ] EF stats
+			[ ] EF average
+			[ ] EF median
+			[ ] EF mode
 
 */
 
@@ -12,7 +17,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('quiz-deliver')
+		.setName('quiz-read-results')
 		.setDescription('for testing'),
 
 	async execute(interaction) {
