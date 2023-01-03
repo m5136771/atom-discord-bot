@@ -10,52 +10,29 @@
 
 const { SlashCommandBuilder } = require('discord.js');
 const mongoose = require('mongoose');
-const Student = require('../db/Student');
-const config = require('../config.json');
+const Student = require('../db/models/Student');
+const { getClassInfo } = require('../helpers');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('db-add-class')
 		.setDescription('Add everyone in channel to DB')
 
-		.addRoleOption(option =>
+		.addrole(option =>
 			option.setName('role')
 				.setDescription('Add all users with this role to DB.')
 				.setRequired(true)),
 
 	async execute(interaction) {
-		const roleOption = interaction.options.getRole('role');
-		let classObj = null;
-
-		// Check is a class?
-		function isClass(roleId) {
-			switch (roleId) {
-			case '1014391186510856202':
-				classObj = config.classInfo.b2;
-				break;
-			case '1014391620323528704':
-				classObj = config.classInfo.b3;
-				break;
-			case '1014391439309938718':
-				classObj = config.classInfo.b4;
-				break;
-			case '1014391323027062794':
-				classObj = config.classInfo.b6;
-				break;
-
-			default:
-				console.log(`Selected Role (${roleId}) is not a class!`);
-				break;
-			}
-		}
-
-		isClass(roleOption.id.toString());
+		const role = interaction.options.getRole('role');
+		const classObj = getClassInfo(role.id.toString());
 
 		if (classObj === null) {
 			await interaction.reply({
-				content: `Selected Role Id (${roleOption.id.toString()}) is not a class!`,
+				content: 'Selected Role is not a class!',
 				ephemeral: true,
 			});
+			console.log(`Error: Role Option (${role.id.toString()}) not a TSS-Class`);
 			return;
 		};
 
@@ -64,7 +41,7 @@ module.exports = {
 		const discIds = []; // empty array to hold member ids
 
 		membersColl
-			.filter(member => member.roles.cache.has(roleOption.id)) // filter out all members that don't match the specified role
+			.filter(member => member.roles.cache.has(role.id)) // filter out all members that don't match the specified role
 			.each(member => discIds.push(member.id)); // for each one remaining, add to the prepared array
 		console.log(`Collection of member ids: ${discIds.toString()}`); // make sure it worked
 
