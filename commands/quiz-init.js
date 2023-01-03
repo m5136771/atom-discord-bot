@@ -54,13 +54,13 @@ module.exports = {
 				.setRequired(false))
 
 		.addStringOption(option =>
-			option.setName('qName')
+			option.setName('qname')
 				.setDescription('Which quiz to deliver.')
-				.addChoices({
-					1: 'html',
-					2: 'git',
-				})
-				.setRequired(true),
+				.setRequired(true)
+				.addChoices(
+					{ name: 'html', value: 'html' },
+					{ name: 'git', value: 'git' },
+				),
 		),
 
 	async execute(interaction) {
@@ -106,9 +106,9 @@ module.exports = {
 		}
 
 
-		await interaction.reply(
-			`Testing:
-			\nClient Logged in as User ('@A.T.O.M.'): ${interaction.client.user}`,
-		);
+		await interaction.reply({
+			content: `Testing:
+			\nClient Logged in as User ('@A.T.O.M.'): ${interaction.client.user}`, embed: [embed],
+		});
 	},
 };
