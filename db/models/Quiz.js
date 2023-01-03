@@ -1,5 +1,4 @@
 const { model, Schema } = require('mongoose');
-const ObjectId = Schema.Types.ObjectId;
 
 const quizSchema = new Schema({
 
@@ -9,7 +8,6 @@ const quizSchema = new Schema({
 	linkedin: Boolean,
 
 	questions: [{
-		ques_id: ObjectId,
 		qNum: Number,
 		text: String,
 		qtype: String,
@@ -22,12 +20,10 @@ const quizSchema = new Schema({
 		answer: String,
 
 		tot_attempts: Number,
-		tot_reps: Number,
+		avg_ef: Number,
 		avg_sec: Number,
 		med_sec: Number,
-		mass_ef: { type: Number, default: 2.5 },
-	},
-	],
+	}],
 
 	avg_ef: Number,
 	med_ef: Number,

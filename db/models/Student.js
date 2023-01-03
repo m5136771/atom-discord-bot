@@ -19,20 +19,27 @@ const studentSchema = new Schema({
 	],
 
 	qresults: [{
-		_id: { type: ObjectId, ref: 'Quiz' },
+		quiz_id: { type: ObjectId, ref: 'Quiz' },
 		taken: Date,
 		questions: [{
-			ques_id: { type: ObjectId, ref: 'Quiz' },
+			question_id: { type: ObjectId, ref: 'Quiz' },
 			attempts: [{
-				attempt_id: ObjectId,
-				result: Boolean,
-				seconds: { type: Number, max: 90 },
+				_id: ObjectId,
 				date: Date,
+
+				ans: Boolean,
+				ans_sec: { type: Number, max: 90 },
+				easiness:  Number,
 			}],
 			tot_attempts: Number,
-			rep_num: Number,
+			avg_sec: Number,
+			med_sec: Number,
+
+			wstreak: { type: Number, default: 0 },
+			lstreak: { type: Number, default: 0 },
+
 			ef: { type: Number, default: 2.5 },
-			ilevel: Number,
+			interval: { type: Number, default: 0 },
 			next_up: Date,
 		}],
 	}],
