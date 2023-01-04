@@ -20,6 +20,8 @@ const studentSchema = new Schema({
 
 	qresults: [{
 		quiz_id: { type: ObjectId, ref: 'Quiz' },
+		name: String,
+		abbrv: String,
 		taken: Date,
 		questions: [{
 			question_id: { type: ObjectId, ref: 'Quiz' },
