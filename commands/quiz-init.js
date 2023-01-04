@@ -1,6 +1,6 @@
 /*
 
-	Command to initiate a specified quiz for a specified class.
+	Command to initiate a specified quiz for the individual calling it.
 
 	[ ] Quiz should deliver questions to individual students based on prior performance.
 		[ ] Send DM with button for student to init quiz when ready? Create listener for keyword in DM/channel?
@@ -14,102 +14,47 @@
 
 */
 
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const Student = require('../db/models/Student');
-const { getClassInfo, getMembersWithRole } = require('../helpers');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const quizName = require('../quizzes/quizzes.json');
 
 const embed = new EmbedBuilder()
 	.setColor(0x0099FF)
 	.setTitle('Quiz')
-	// .setURL('https://discord.js.org/')
-	// .setAuthor({ name: 'Mr. DiPaolo', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-	.setDescription('You have 7, 14, or 30 days to make as much money as possible! You\'ll have complete control over pricing, quality, inventory, and supplies.')
-	// .setThumbnail('https://i.imgur.com/AfFp7pu.png')
+	.setDescription('These questions are designed to help you practice for a future graded assessment.')
 	.addFields(
-		{ name: 'Recipe', value: 'Start with the default recipe, but experiment to find a better one. Make sure you buy enough ingredients, or you won\'t be able to sell!' },
-		// This creates a blank space { name: '\u200B', value: '\u200B' },
-		{ name: 'Weather', value: 'This playa a big role in customer demand. Read the weather report every day! WHen the temperature is low, or the weather is bad (overcast, cloudy, rain), don\'t expect to sell as much, and buy accordingly. Set your prices higher on hot, muggy days to increase profit, even if you sell less lemonade.' },
-		{ name: 'Customer Satisfaction', value: 'As you sell your lemonade, people will decide how much they like or dislike it. If your popularity is low, fewer people will buy, even if the weather is hot and sunny. But if you increase your popularity, you\'ll do okay even when it\'s cold and rainy!' },
-		{ name: 'Goal', value: 'At the end of 7, 14, or 30 days, you\'ll see how much money you made. Try to beat your high score!' },
-		// { name: 'Inline field title', value: 'Some value here', inline: true },
+		{ name: 'Where do the questions come from?', value: 'I use a question bank to hold tons of practice questions related to the subject. These questions will be pulled from the question bank unless you have questions to answer in your personal queue.' },
+		{ name: 'What is my Personal Queue?', value: 'These questions use spaced repetition to help you learn; You should expect to see the same questions periodically depending on how well the algorithm thinks you know the answers (questions you get right will show up less frequently).' },
+		{ name: 'How does Spaced Repetition work?', value: 'Every time you attempt a question, I will log your response, its correctness, and how long it took to answer. I\'ll use that data to calculate how "easy" the question was for you to answer. When you get it right, the algorithm will determine when to show it to you next. The time between recurring questions will be longer and longer depending on your "win streak." If you get one wrong, the streak will reset and so will the repetition intervals.' },
+		{ name: 'Goal', value: 'The goal is to **learn**. If you need to Google something or look into your notes or ask a friend, please do, but remember that just finding the answer without understanding the answer will negatively affect your ability to perform well on the graded assessment in class; Take time to learn the answers now whilw it\'s still "practice."' },
 	);
-	// .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
-	// .setImage('https://i.imgur.com/AfFp7pu.png')
-	// .setTimestamp()
-	// .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' })
+
+const row = new ActionRowBuilder()
+	.addComponents(
+		new ButtonBuilder()
+			.setCustomId('html')
+			.setLabel('HTML')
+			// .setDisabled(true)
+			.setStyle(ButtonStyle.Primary),
+	)
+	.addComponents(
+		new ButtonBuilder()
+			.setCustomId(`${quizName.q2}`)
+			.setLabel(`${quizName.q2}`)
+			// .setDisabled(true)
+			.setStyle(ButtonStyle.Primary),
+	);
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('quiz-init')
-		.setDescription('for testing')
-
-		.addStringOption(option =>
-			option.setName('qname')
-				.setDescription('Which quiz to deliver.')
-				.setRequired(true)
-				.addChoices(
-					{ name: 'html', value: 'html' },
-					{ name: 'git', value: 'git' },
-				),
-		)
-
-		.addRoleOption(option =>
-			option.setName('role')
-				.setDescription('To deliver quiz to whole class.')
-				.setRequired(false))
-
-		.addUserOption(option =>
-			option.setName('user')
-				.setDescription('To deliver quiz to individuals.')
-				.setRequired(false),
-		),
+		.setDescription('for testing'),
 
 	async execute(interaction) {
-		const user = interaction.options.getUser('user');
-		const qName = interaction.options.getString('qName');
-		const role = interaction.options.getRole('role');
-		const classObj = getClassInfo(role.id.toString());
-
-		if (classObj === null) {
-			await interaction.reply({
-				content: 'Selected Role is not a class!',
-				ephemeral: true,
-			});
-			console.log(`Error: Role Option (${role.id.toString()}) not a TSS-Class`);
-			return;
-		};
-
-		const discIds = getMembersWithRole(interaction, role);
-
-		// Get THREE (3) QUESTIONS to send
-		// -----------------------
-		// 1. look at each student file
-		for (const x of discIds) {
-			console.log(`Going through array at ${x}`);
-			let studentDoc = await Student.findOne({ disc_id: x });
-		};
-
-		// 2. if any questions are next_up today, grab them (up to 3 total in quiz)
-
-		// 3. if more questions needed, pull quiz file and grab more that student has never attempted
-		const quizName = interaction.options.getRole('role');
-		getQuizInfo();
-
-		// 4. send questions 1-by-1 to student through Discord
-		if (!user && !role) {
-			console.log('No one specified to receive test!');
-		} else if (!qName) {
-			console.log('No quiz specified!');
-		} else if (!user && role) {
-			// send questions to each member in class
-		} else if (!role && user) {
-			// send questions to just this user
-		}
-
 
 		await interaction.reply({
-			content: `Testing:
-			\nClient Logged in as User ('@A.T.O.M.'): ${interaction.client.user}`, embed: [embed],
+			ephemeral: true,
+			embeds: [embed],
+			components: [row],
 		});
 	},
 };
