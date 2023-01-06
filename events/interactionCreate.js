@@ -12,7 +12,7 @@ module.exports = {
 
 		if (interaction.isChatInputCommand()) {
 			try {
-				console.log('executing slash command...');
+				console.log(`executing ${interaction.commandName} slash command in #${interaction.channel.name}...`);
 				command.execute(interaction);
 			} catch (error) {
 				console.error(error);
@@ -25,7 +25,7 @@ module.exports = {
 
 		if (interaction.isButton()) {
 			try {
-				console.log('executing button command...');
+				console.log(`executing ${interaction.customId} button command in #${interaction.channel.name}...`);
 				buttonCommand.execute(interaction);
 			} catch (error) {
 				console.error(error);
@@ -38,7 +38,7 @@ module.exports = {
 
 		if (interaction.isSelectMenu()) {
 			try {
-				console.log('executing menu command...');
+				console.log(`executing ${interaction.customId} menu command in #${interaction.channel.name}...`);
 				menuCommand.execute(interaction);
 			} catch (error) {
 				console.error(error);
@@ -48,9 +48,5 @@ module.exports = {
 				});
 			}
 		};
-
-		console.log(
-			`${interaction.user.tag} in #${interaction.channel.name} triggered the interaction ${interaction.customId}`,
-		);
 	},
 };

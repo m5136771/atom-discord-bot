@@ -15,7 +15,6 @@
 */
 
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-const quizName = require('../quizzes/quizzes.json');
 
 const embed = new EmbedBuilder()
 	.setColor(0x0099FF)
@@ -31,15 +30,15 @@ const embed = new EmbedBuilder()
 const row = new ActionRowBuilder()
 	.addComponents(
 		new ButtonBuilder()
-			.setCustomId('html')
+			.setCustomId('html-next')
 			.setLabel('HTML')
 			// .setDisabled(true)
 			.setStyle(ButtonStyle.Primary),
 	)
 	.addComponents(
 		new ButtonBuilder()
-			.setCustomId(`${quizName.q2}`)
-			.setLabel(`${quizName.q2}`)
+			.setCustomId('agile-next')
+			.setLabel('Agile')
 			// .setDisabled(true)
 			.setStyle(ButtonStyle.Primary),
 	);
