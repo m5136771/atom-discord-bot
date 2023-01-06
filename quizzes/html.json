@@ -78,8 +78,7 @@
     },
     {
       "qNum": 6,
-      "text": "What should fill the two blanks in the HTML code below?",
-      "text_2": "```html\n<address ______ _____>\n  <span itemprop='streetAddress'>6410 Via Real</span><br />\n  <span itemprop='addressLocality'>Carpinteria</span>,\n  <span itemprop='addressRegion'>CA</span>\n  <span itemprop='addressCode'>93013</span>\n</address>\n```",
+      "text": "What should fill the two blanks in the HTML code below?\n\n```html\n<address ______ _____>\n  <span itemprop='streetAddress'>6410 Via Real</span><br />\n  <span itemprop='addressLocality'>Carpinteria</span>,\n  <span itemprop='addressRegion'>CA</span>\n  <span itemprop='addressCode'>93013</span>\n</address>\n```",
       "qtype": "Multiple Choice",
       "choices": {
         "a": "`itemscope` `itemtype='http://schema.org/PostalAddress'`",
