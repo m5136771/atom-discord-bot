@@ -82,7 +82,7 @@ mongoose
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	}).then(
-		() => { console.log('Connected to DB.'); },
+		() => { console.log('\nConnected to DB.\n'); },
 		err => { console.log(err); },
 	);
 
