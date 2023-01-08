@@ -12,7 +12,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('assess-init')
+		.setName('sa-init')
 		.setDescription('Begin a Graded Skill Assessment.'),
 
 	async execute(interaction) {
