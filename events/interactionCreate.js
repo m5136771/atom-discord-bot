@@ -12,12 +12,12 @@ module.exports = {
 
 		if (interaction.isChatInputCommand()) {
 			try {
-				console.log(`executing ${interaction.commandName} slash command in #${interaction.channel.name}...`);
+				console.log(`╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n⤷ Executing 〈 / ${interaction.commandName} 〉 slash command in ⟦ #${interaction.channel.name} ⟧\n`);
 				command.execute(interaction);
 			} catch (error) {
 				console.error(error);
 				interaction.reply({
-					content: 'There was an error while executing this command!',
+					content: `🚫 There was an error while executing 〈 / ${interaction.commandName} 〉 in ⟦ #${interaction.channel.name} ⟧\n`,
 					ephemeral: true,
 				});
 			}
@@ -25,12 +25,12 @@ module.exports = {
 
 		if (interaction.isButton()) {
 			try {
-				console.log(`executing ${interaction.customId} button command in #${interaction.channel.name}...`);
+				console.log(`╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n⤷ Executing 〈⦿  ${interaction.customId} 〉 button command in ⟦ #${interaction.channel.name} ⟧\n`);
 				buttonCommand.execute(interaction);
 			} catch (error) {
 				console.error(error);
 				interaction.reply({
-					content: 'There was an error while executing this button\'s command!',
+					content: `🚫 There was an error while executing 〈 ⦿ ${interaction.customId} 〉 in ⟦ #${interaction.channel.name} ⟧\n`,
 					ephemeral: true,
 				});
 			}
@@ -38,12 +38,12 @@ module.exports = {
 
 		if (interaction.isSelectMenu()) {
 			try {
-				console.log(`executing ${interaction.customId} menu command in #${interaction.channel.name}...`);
+				console.log(`╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n⤷ Executing 〈 ☰ ${interaction.customId} 〉 menu command in ⟦ #${interaction.channel.name} ⟧\n`);
 				menuCommand.execute(interaction);
 			} catch (error) {
 				console.error(error);
 				interaction.reply({
-					content: 'There was an error while executing this menu\'s command!',
+					content: `🚫 There was an error while executing 〈 ☰ ${interaction.customId} 〉 in ⟦ #${interaction.channel.name} ⟧\n`,
 					ephemeral: true,
 				});
 			}
