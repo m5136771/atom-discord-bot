@@ -1,14 +1,14 @@
 /* eslint-disable no-inline-comments */
 /*
 
-	Standalone script to create a quiz and load questions into 'quizzes' DB collection.
+	Standalone script to create a Question and load questions into 'Questionzes' DB collection.
 
 */
 
-// DECLARE QUIZ
+// DECLARE Question
 // ------------------------------
 // ------------------------------
-const quizFile = '../quizzes/html.json';
+const fileName = '../question-banks/html.json';
 // ------------------------------
 // ------------------------------
 
@@ -18,11 +18,10 @@ const mongoose = require('mongoose');
 const { mongoUri } = require('../config.json');
 
 // import Model
-const Quiz = require('./models/Quiz');
+const Question = require('./models/Question');
 
-// import quiz.json
-const quizJson = require(quizFile);
-
+// import Question.json
+const jsonFile = require(fileName);
 
 async function run() {
 	// Mongo Connect & Events
@@ -36,27 +35,27 @@ async function run() {
 			err => { console.log(err); },
 		);
 
-	// Check for existing quiz
-	const foundQuiz = await Quiz.findOne({ name: quizJson.name });
-	if (!foundQuiz) {
-		console.log(`No DB entry found for ${quizJson.name}`);
+	// Check for existing Question
+	for (const x in jsonFile.questions) {
+		const question = jsonFile.questions[x];
+		const qsDoc = await Question.findOne({ text: question.text });
+		if (!qsDoc) {
+			console.log(`No DB entry found for ${question.text}`);
 
-		// create new document instance
-		const newQuiz = new Quiz(quizJson);
+			// create new document instance
+			const newQs = new Question(question);
 
-		// save model to database
-		newQuiz.save(function(err) {
-			if (err) return console.error(err);
-			console.log(`New quiz, ${newQuiz.name}, created and saved to 'quizzes' collection.`);
-			mongoose.connection.close();
-		});
-	} else {
-		console.log(`DB entry found for ${foundQuiz.name}. Updating...`);
-		await Quiz.updateOne({ name: quizJson.name }, quizJson);
-		console.log(`Quiz ${foundQuiz.name} updated successfully.`);
-
-		mongoose.connection.close();
-	};
+			// save model to database
+			newQs.save(function(err) {
+				if (err) return console.error(err);
+				console.log(`New Question (${newQs.text}) created and saved to 'questions' collection.`);
+			});
+		} else {
+			console.log(`DB entry found for ${qsDoc.text}. Updating...`);
+			const res = await Question.updateOne({ text: question.text }, question);
+			console.log(`Question (${res}) updated successfully.`);
+		};
+	}
 };
 
 run()

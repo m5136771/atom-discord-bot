@@ -7,44 +7,17 @@ const studentSchema = new Schema({
 	disc_tag: { type: String, unique: true },
 
 	name: String,
+	email: String,
 	year: Number,
-	classes: [
-		{
-			block: Number,
-			name: String,
-			abbrv: String,
-			role: String,
-			audit: Boolean,
-		},
-	],
+	enrolled: [{ type: ObjectId, ref: 'Course' }],
 
-	qresults: [{
-		quiz_id: { type: ObjectId, ref: 'Quiz' },
-		name: String,
-		abbrv: String,
-		taken: Date,
-		questions: [{
-			question_id: { type: ObjectId, ref: 'Quiz' },
-			attempts: [{
-				_id: ObjectId,
-				date: Date,
+	sa_tot_atmps: { type: Number, default: 0 },
+	// sa_atmps: { type: [ObjectId], ref: 'Assessments' },
 
-				ans: Boolean,
-				ans_sec: { type: Number, max: 90 },
-				easiness:  Number,
-			}],
-			tot_attempts: Number,
-			avg_sec: Number,
-			med_sec: Number,
+	qs_tot_atmps: { type: Number, default: 0 },
+	qs_atmps: { type: [ObjectId], ref: 'Attempt' },
 
-			wstreak: { type: Number, default: 0 },
-			lstreak: { type: Number, default: 0 },
-
-			ef: { type: Number, default: 2.5 },
-			interval: { type: Number, default: 0 },
-			next_up: Date,
-		}],
-	}],
+	next_up: { type: [ObjectId], ref: 'Attempt' },
 });
 
 module.exports = model('Student', studentSchema, 'students');

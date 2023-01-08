@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { mongoUri } = require('../config.json');
 
 // import Model
-const Quiz = require('./models/Quiz');
+const Attempt = require('./models/Attempt');
 
 // Mongo Connect & Events
 mongoose
@@ -31,7 +31,7 @@ mongoose
 	  });
 
 // Create collection of Model
-Quiz.createCollection();
+Attempt.createCollection();
 console.log('Collection is created!');
 
 // Close connection to DB
