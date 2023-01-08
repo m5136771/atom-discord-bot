@@ -11,7 +11,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const mongoose = require('mongoose');
 const Student = require('../db/models/Student');
-const { getClassInfo } = require('../helpers');
+const { getClassInfo } = require('../helpers/misc');
 
 module.exports = {
 	data: new SlashCommandBuilder()
