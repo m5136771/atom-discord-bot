@@ -1,5 +1,5 @@
 /* eslint-disable no-inline-comments */
-const config = require('./config.json');
+const config = require('../config.json');
 
 // --------------------
 // COMMAND HELPER FUNCTIONS
@@ -75,17 +75,21 @@ function easinessCalc(ansCorrect, ansTime) {
 		} else if (ansTime >= 40 && ansTime <= 59) {
 			return 3;
 		} else {
-			// too long, trying to look up answer. 60-90s
+			// too long, needed to look up answer. 60-90s
 			return 0;
 		};
 	};
 };
 
 function efCalc(ef, easiness) {
+	if (ef === null) {
+		ef = 2.5;
+	};
+
 	let efNew = ef - 0.8 + 0.28 * easiness - 0.02 * easiness * easiness;
 	const efDiff = efNew - ef;
 
-	console.log(`New EF calculates to ${efNew}, a difference of ${efDiff}`);
+	console.log(`New EF calculates to ${efNew.toFixed(2)}, a difference of ${efDiff.toFixed(2)}`);
 
 	if (efNew < 1.3) {
 		console.log('EF has fallen below 1.3; Needs review.');
@@ -93,7 +97,7 @@ function efCalc(ef, easiness) {
 	};
 
 	console.log('Calculation finished.');
-	return efNew;
+	return efNew.toFixed(2);
 };
 
 /*
@@ -107,7 +111,7 @@ function efCalc(ef, easiness) {
 function daysToNext(wstreak, ef) {
 	let days = 0;
 	if (wstreak === 0) {
-		return;
+		return days;
 	} else if (wstreak === 1) {
 		days = 1;
 	} else {
@@ -118,17 +122,41 @@ function daysToNext(wstreak, ef) {
 	return days;
 };
 
+function newDate(today, interval) {
+	const d = today.setDate(today.getDate() + interval);
+	return d;
+};
+
 function getRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+};
+
+async function docSave(doc) {
+	await doc.save().catch(console.error);
+};
+
+async function lastEf(last) {
+	let ef = 2.5;
+	if (last === null) {
+		console.log('Last ef === null.');
+		return ef;
+	} else {
+		ef = last.ef;
+		console.log(`Last EF found: ${ef}`);
+		return ef;
+	}
 }
 
 module.exports = {
 	daysToNext,
+	docSave,
 	easinessCalc,
 	efCalc,
 	getClassInfo,
 	getMembersWithRole,
 	getRandomInt,
+	lastEf,
+	newDate,
 };
