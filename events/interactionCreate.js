@@ -3,6 +3,14 @@ const { Events } = require('discord.js');
 module.exports = {
 	name: Events.InteractionCreate,
 	execute(interaction) {
+		if (interaction.member.id != 804824020251705344) {
+			interaction.reply({
+				content: `Sorry ${interaction.member.displayName}, you're not able to use my commands!`,
+				ephemeral: true,
+			});
+			return;
+		};
+
 		if (!interaction.isChatInputCommand() && !interaction.isButton() && !interaction.isSelectMenu()) return;
 
 		const buttonCommand = interaction.client.buttonCommands.get(interaction.customId);
@@ -12,12 +20,12 @@ module.exports = {
 
 		if (interaction.isChatInputCommand()) {
 			try {
-				console.log('executing slash command...');
+				console.log(`╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n⤷ 😀 ${interaction.member.displayName}: Executing 〈 / ${interaction.commandName} 〉 slash command in ⟦ #${interaction.channel.name} ⟧\n`);
 				command.execute(interaction);
 			} catch (error) {
 				console.error(error);
 				interaction.reply({
-					content: 'There was an error while executing this command!',
+					content: `🚫 There was an error while executing 〈 / ${interaction.commandName} 〉 in ⟦ #${interaction.channel.name} ⟧\n`,
 					ephemeral: true,
 				});
 			}
@@ -25,12 +33,12 @@ module.exports = {
 
 		if (interaction.isButton()) {
 			try {
-				console.log('executing button command...');
+				console.log(`╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n⤷ 😀 ${interaction.member.displayName}: Executing 〈⦿  ${interaction.customId} 〉 button command in ⟦ #${interaction.channel.name} ⟧\n`);
 				buttonCommand.execute(interaction);
 			} catch (error) {
 				console.error(error);
 				interaction.reply({
-					content: 'There was an error while executing this button\'s command!',
+					content: `🚫 There was an error while executing 〈 ⦿ ${interaction.customId} 〉 in ⟦ #${interaction.channel.name} ⟧\n`,
 					ephemeral: true,
 				});
 			}
@@ -38,19 +46,15 @@ module.exports = {
 
 		if (interaction.isSelectMenu()) {
 			try {
-				console.log('executing menu command...');
+				console.log(`╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌\n⤷ 😀 ${interaction.member.displayName}: Executing 〈 ☰ ${interaction.customId} 〉 menu command in ⟦ #${interaction.channel.name} ⟧\n`);
 				menuCommand.execute(interaction);
 			} catch (error) {
 				console.error(error);
 				interaction.reply({
-					content: 'There was an error while executing this menu\'s command!',
+					content: `🚫 There was an error while executing 〈 ☰ ${interaction.customId} 〉 in ⟦ #${interaction.channel.name} ⟧\n`,
 					ephemeral: true,
 				});
 			}
 		};
-
-		console.log(
-			`${interaction.user.tag} in #${interaction.channel.name} triggered the interaction ${interaction.customId}`,
-		);
 	},
 };

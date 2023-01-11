@@ -1,3 +1,9 @@
+/*
+
+	Basic button command template.
+
+*/
+
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 const row = new ActionRowBuilder()

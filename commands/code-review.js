@@ -1,3 +1,9 @@
+/*
+
+	Command for students to report a finished code review.
+
+*/
+
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 const embed = new EmbedBuilder()
