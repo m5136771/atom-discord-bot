@@ -4,7 +4,8 @@
 
 */
 
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SAOptionsRow1, SAOptionsRow2 } = require('../assets/action-rows');
 
 const embed = new EmbedBuilder()
 	.setColor(0x0099FF)
@@ -17,20 +18,6 @@ const embed = new EmbedBuilder()
 		{ name: 'Goal', value: 'The goal is to **learn**. If you need to Google something or look into your notes or ask a friend, please do, but remember that just finding the answer without understanding the answer will negatively affect your ability to perform well on the graded assessment in class; Take time to learn the answers now whilw it\'s still "practice."' },
 	);
 
-const saOptionRow = new ActionRowBuilder()
-	.addComponents(
-		new ButtonBuilder()
-			.setCustomId('html-next')
-			.setLabel('HTML')
-			.setStyle(ButtonStyle.Primary),
-	)
-	.addComponents(
-		new ButtonBuilder()
-			.setCustomId('agile-next')
-			.setLabel('Agile')
-			.setStyle(ButtonStyle.Primary),
-	);
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('sa-practice')
@@ -41,7 +28,7 @@ module.exports = {
 		await interaction.reply({
 			ephemeral: true,
 			embeds: [embed],
-			components: [saOptionRow],
+			components: [SAOptionsRow1, SAOptionsRow2],
 		});
 	},
 };
