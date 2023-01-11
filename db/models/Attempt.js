@@ -17,6 +17,7 @@ const atmpSchema = new Schema({
 	ef: { type: Number, default: 2.5 },
 	interval: { type: Number, default: 0 },
 	next_up: Date,
+	r_atmp: { type: Boolean, default: false },
 },
 {
 	timestamps: true,

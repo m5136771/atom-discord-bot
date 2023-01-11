@@ -6,7 +6,8 @@ const studentSchema = new Schema({
 	disc_id: { type: String, unique: true },
 	disc_tag: { type: String, unique: true },
 
-	name: String,
+	fname: String,
+	lname: String,
 	email: String,
 	year: Number,
 	enrolled: [{ type: ObjectId, ref: 'Course' }],
