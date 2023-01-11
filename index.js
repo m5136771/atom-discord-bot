@@ -5,7 +5,9 @@ const { mongoUri, token } = require('./config.json');
 const mongoose = require('mongoose');
 
 // Client Init
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
+const client = new Client({
+	intents:[GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
 
 // console.log(myGuild.approximateMemberCount);
 

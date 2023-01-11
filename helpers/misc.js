@@ -57,7 +57,7 @@ async function getMembersWithRole(i, role) {
 
 function easinessCalc(ansCorrect, ansTime) {
 	if (!ansCorrect) {
-		if (ansTime >= 11 && ansTime <= 59) {
+		if (ansTime >= 29 && ansTime <= 90) {
 			// incorrect; answered slow (tried, meaning closer to recallable)
 			return 2;
 		} else if (ansTime >= 0 && ansTime <= 10) {
@@ -68,15 +68,13 @@ function easinessCalc(ansCorrect, ansTime) {
 			return 0;
 		};
 	} else {
-		if (ansTime >= 0 && ansTime <= 15) {
+		if (ansTime >= 0 && ansTime <= 9) {
 			return 5;
-		} else if (ansTime >= 16 && ansTime <= 39) {
+		} else if (ansTime >= 10 && ansTime <= 29) {
 			return 4;
-		} else if (ansTime >= 40 && ansTime <= 59) {
-			return 3;
 		} else {
-			// too long, needed to look up answer. 60-90s
-			return 0;
+			// longer than 29s, had to look up answer.
+			return 3;
 		};
 	};
 };
@@ -86,6 +84,7 @@ function efCalc(ef, easiness) {
 		ef = 2.5;
 	};
 
+	// let efNew = ef + (0.1 - (5 - easiness) * (0.08 + (5 - easiness) * 0.02));
 	let efNew = ef - 0.8 + 0.28 * easiness - 0.02 * easiness * easiness;
 	const efDiff = efNew - ef;
 
@@ -111,12 +110,15 @@ function efCalc(ef, easiness) {
 function daysToNext(wstreak, ef) {
 	let days = 0;
 	if (wstreak === 0) {
+		console.log(`Given a win streak of ${wstreak} and an ef of ${ef}\nInterval calculates to ${days} days.`);
 		return days;
 	} else if (wstreak === 1) {
 		days = 1;
+		console.log(`Given a win streak of ${wstreak} and an ef of ${ef}\nInterval calculates to ${days} days.`);
 	} else {
 		// If interval is a fraction, round it up to the nearest integer.
 		days = Math.ceil(wstreak * ef);
+		console.log(`Given a win streak of ${wstreak} and an ef of ${ef}\nInterval calculates to ${days} days.`);
 	};
 
 	return days;
@@ -137,18 +139,6 @@ async function docSave(doc) {
 	await doc.save().catch(console.error);
 };
 
-async function lastEf(last) {
-	let ef = 2.5;
-	if (last === null) {
-		console.log('Last ef === null.');
-		return ef;
-	} else {
-		ef = last.ef;
-		console.log(`Last EF found: ${ef}`);
-		return ef;
-	}
-}
-
 module.exports = {
 	daysToNext,
 	docSave,
@@ -157,6 +147,5 @@ module.exports = {
 	getClassInfo,
 	getMembersWithRole,
 	getRandomInt,
-	lastEf,
 	newDate,
 };
