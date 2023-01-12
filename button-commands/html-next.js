@@ -8,12 +8,13 @@ const { EmbedBuilder, ComponentType } = require('discord.js');
 const Attempt = require('../db/models/Attempt');
 const Question = require('../db/models/Question');
 const Student = require('../db/models/Student');
-const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave } = require('../helpers/misc');
+const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursToNext } = require('../helpers/misc');
+const { ansRow, htmlContRow } = require('../assets/action-rows');
 
-const { ansRow, contRow } = require('../assets/action-rows');
+const saName = 'html';
 
 module.exports = {
-	customId: 'html-next',
+	customId: `${saName}-next`,
 	description: 'Moves to next question.',
 
 	async execute(interaction) {
@@ -47,7 +48,7 @@ module.exports = {
 			.then(
 				(doc) => {
 					if (doc === null) {
-						console.log('Nothing to see here...');
+						console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
 						console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
@@ -75,14 +76,20 @@ module.exports = {
 			console.log('Querying DB for count...');
 			const queryForCount = await Question
 				.countDocuments()
-				.where('tags').in(['html'])
+				.where('tags').in([`${saName}`])
 				.where('atmp_by').ne(studentId);
 
 			console.log(`queryForCount = ${queryForCount}`);
 
 			if (queryForCount === 0) {
+				const nextInLine = await Attempt
+					.findOne()
+					.where('student', studentId)
+					.where('r_atmp', false)
+					.sort({ next_up: -1 });
+
 				await interaction.update(
-					{ content: 'You\'re insane!! You answered every question at least once!!!', ephemeral: true, embeds: [], components: [] },
+					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${nextInLine.next_up.toDateString()}`, ephemeral: true, embeds: [], components: [] },
 				);
 				console.log('No more quiz questions.. ending quiz.');
 				return;
@@ -95,7 +102,7 @@ module.exports = {
 			console.log('Querying DB for question...');
 			const questionDocs = await Question
 				.findOne()
-				.where('tags').in(['html'])
+				.where('tags').in([`${saName}`])
 				.where('atmp_by').ne(studentId)
 				.skip(ranNum);
 
@@ -129,7 +136,7 @@ module.exports = {
 		// 4. send question to student
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
-			.setTitle('HTML Skill Assessment Practice')
+			.setTitle('Your Question')
 			.setDescription(`${nextQuestion.text}\n**A**: ${nextQuestion.choices.a}\n**B**: ${nextQuestion.choices.b}\n**C**: ${nextQuestion.choices.c}\n**D**: ${nextQuestion.choices.d}\n`);
 
 		const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.Button, time: 90000, max: 1 });
@@ -200,11 +207,11 @@ module.exports = {
 				docSave(newAtmp);
 
 				i.update(
-					{ content: `Answer ${i.customId.toUpperCase()} recorded.`, embeds: [], components: [contRow] },
+					{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up.toDateString()}`, embeds: [], components: [htmlContRow] },
 				);
 			} else if (i.customId === 'sa-practice-end') {
 				i.update(
-					{ content: 'Thanks for Practicing!', ephemeral: true, embeds: [], components: [] },
+					{ content: 'Thank you for Practicing!', ephemeral: true, embeds: [], components: [] },
 				);
 			} else {
 				console.log(`⛔ Oh no! Incorrect!! ⌚ Time: ${seconds}`);
@@ -218,9 +225,9 @@ module.exports = {
 				console.log(`Old Winstreak${lastWstreak}`);
 				const newWstreak = 0;
 				console.log(`New Winstreak${newWstreak}`);
-				const newInt = daysToNext(newWstreak, newEF);
-				const nextDate = newDate(startTime, newInt);
-				console.log(`Next Date is: ${nextDate}`);
+				const newInt = 0;
+				const nextDate = hoursToNext(startTime, 1);
+				console.log(`Next Date is: ${nextDate.toDateString()}`);
 
 				newAtmp.ans = false;
 				newAtmp.ans_sec = seconds;
@@ -232,11 +239,11 @@ module.exports = {
 				newAtmp.interval = newInt;
 				newAtmp.next_up = nextDate;
 
-				console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nNext Up: ${newAtmp.next_up}\n`);
+				console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nNext Up: ${newAtmp.next_up.toDateString()}\n`);
 				docSave(newAtmp);
 
 				i.update(
-					{ content: `Answer ${i.customId.toUpperCase()} recorded.`, embeds: [], components: [contRow] },
+					{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [htmlContRow] },
 				);
 			}
 		});
