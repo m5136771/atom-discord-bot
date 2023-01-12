@@ -2,7 +2,7 @@ const { model, Schema } = require('mongoose');
 const ObjectId = Schema.Types.ObjectId;
 
 const questionSchema = new Schema({
-	quizzes: [{ type: ObjectId, ref: 'Quiz' }],
+	sa: [{ type: ObjectId, ref: 'Skill Assessment' }],
 
 	text: String,
 	choices: {
