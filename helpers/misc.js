@@ -70,10 +70,10 @@ function easinessCalc(ansCorrect, ansTime) {
 	} else {
 		if (ansTime >= 0 && ansTime <= 9) {
 			return 5;
-		} else if (ansTime >= 10 && ansTime <= 29) {
+		} else if (ansTime >= 20 && ansTime <= 39) {
 			return 4;
 		} else {
-			// longer than 29s, had to look up answer.
+			// longer than 39s, had to look up answer.
 			return 3;
 		};
 	};
@@ -106,6 +106,12 @@ function efCalc(ef, easiness) {
  */
 
 // Note, that for q=4 the E-Factor does not change.
+
+function hoursToNext(time, hours) {
+	const t = time.setHours(time.getMinutes() + hours);
+	console.log(`Adding ${hours} to ${time}: ${t}`);
+	return t;
+};
 
 function daysToNext(wstreak, ef) {
 	let days = 0;
@@ -147,5 +153,6 @@ module.exports = {
 	getClassInfo,
 	getMembersWithRole,
 	getRandomInt,
+	hoursToNext,
 	newDate,
 };
