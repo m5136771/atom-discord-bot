@@ -3,13 +3,13 @@ const { Events } = require('discord.js');
 module.exports = {
 	name: Events.InteractionCreate,
 	execute(interaction) {
-		if (interaction.member.id != 804824020251705344) {
+		/* if (interaction.member.id != 804824020251705344) {
 			interaction.reply({
 				content: `Sorry ${interaction.member.displayName}, you're not able to use my commands!`,
 				ephemeral: true,
 			});
 			return;
-		};
+		}; */
 
 		if (!interaction.isChatInputCommand() && !interaction.isButton() && !interaction.isSelectMenu()) return;
 
