@@ -227,7 +227,7 @@ module.exports = {
 				console.log(`New Winstreak${newWstreak}`);
 				const newInt = 0;
 				const nextDate = hoursToNext(startTime, 1);
-				console.log(`Next Date is: ${nextDate.toDateString()}`);
+				console.log(`Next Date is: ${nextDate}`);
 
 				newAtmp.ans = false;
 				newAtmp.ans_sec = seconds;
@@ -239,7 +239,7 @@ module.exports = {
 				newAtmp.interval = newInt;
 				newAtmp.next_up = nextDate;
 
-				console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nNext Up: ${newAtmp.next_up.toDateString()}\n`);
+				console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nNext Up: ${newAtmp.next_up}\n`);
 				docSave(newAtmp);
 
 				i.update(
