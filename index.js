@@ -9,22 +9,6 @@ const client = new Client({
 	intents:[GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildPresences] });
 
-// console.log(myGuild.approximateMemberCount);
-
-/* const baseManager = new BaseManager();
-console.log(baseManager); */
-
-/* const dataManager = new DataManager();
-console.log(dataManager.cache); */
-
-/* console.log(client.guild);
-const gChannelManager = new GuildChannelManager();
-console.log(gChannelManager.channelCountWithoutThreads); */
-
-/* console.log(gChannelManager.client);
-console.log(gChannelManager.guild);
-console.log(gChannelManager.cache); */
-
 // Event Handler
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
@@ -84,7 +68,7 @@ mongoose
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	}).then(
-		() => { console.log('\nConnected to DB.\n'); },
+		() => { console.log('Connected to DB.'); },
 		err => { console.log(err); },
 	);
 
@@ -102,40 +86,5 @@ mongoose
 	  .connection.on('disconnected', err => {
 		console.log(err);
 	  });
-
-
-// Presence Handler **ADD THIS EVENT TO EVENTS FOLDER**
-
-/* client.on('presenceUpdate', (oldPresence, newPresence) => {
-	let userTag = newPresence.user.tag
-
-	try {
-		if (oldPresence.status === 'undefined' || oldPresence.status === null && newPresence.status === 'online') {
-			messageText = `🟢 ${userTag} logged on!`
-		} else if (newPresence.status === 'offline') {
-			messageText = `🔴 ${userTag} logged off!`;
-		} else if (oldPresence.status === 'offline' && newPresence.status === 'online') {
-			messageText = `🟢 ${userTag} logged on! (from invisible?)`;
-		} else if (oldPresence.status === newPresence.status) {
-			return;
-		} else {
-			messageText = `${userTag} changed status from ${oldPresence.status} to ${newPresence.status}`
-		};
-
-		client.channels.cache.get('1036805916223340646')
-		.send(`${messageText}`);
-
-	} catch (e) {
-		console.log(e);
-	};
-}); */
-
-// DB Helpers
-/* client.users = new UserManager();
-
-client.users.cache
-	.each(user => console.log(user.username))
-	.filter(user => user.bot)
-	.each(user => console.log(user.username)); */
 
 client.login(token);
