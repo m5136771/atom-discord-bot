@@ -108,8 +108,8 @@ function efCalc(ef, easiness) {
 // Note, that for q=4 the E-Factor does not change.
 
 function hoursToNext(time, hours) {
-	const t = time.setHours(time.getMinutes() + hours);
-	console.log(`Adding ${hours} to ${time}: ${t}`);
+	const t = time.setHours(time.getHours() + hours);
+	console.log(`Adding ${hours} hour to ${time}: ${t}`);
 	return t;
 };
 
