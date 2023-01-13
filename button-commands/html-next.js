@@ -12,6 +12,7 @@ const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursT
 const { ansRow, htmlContRow } = require('../assets/action-rows');
 
 const saName = 'html';
+const secPerQuestion = 90000;
 
 module.exports = {
 	customId: `${saName}-next`,
@@ -141,7 +142,7 @@ module.exports = {
 			.setTitle('Your Question')
 			.setDescription(`${nextQuestion.text}\n**A**: ${nextQuestion.choices.a}\n**B**: ${nextQuestion.choices.b}\n**C**: ${nextQuestion.choices.c}\n**D**: ${nextQuestion.choices.d}\n`);
 
-		const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.Button, time: 90000, max: 1 });
+		// const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.Button, time: 90000, max: 1 });
 		const correctResponse = nextQuestion.ans;
 		// console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
 
@@ -171,91 +172,90 @@ module.exports = {
 
 		const newAtmp = await Attempt.findById(attemptId);
 
-		collector.on('collect', i => {
-			const endTime = new Date();
-			// console.log(`End time: ${endTime}`);
-			const seconds = ((endTime - startTime) / 1000).toFixed(1);
-			// console.log(`Button pressed was: 〈⦿  ${i.customId.toUpperCase()} 〉`);
-
-
-			if (i.customId === correctResponse) {
-				console.log(`✅ Correct response logged! ⌚ Time: ${seconds}`);
-				const ease = easinessCalc(true, seconds);
-				// console.log(`Ease calc: ${ease}`);
-				// console.log(`lastEf: ${lastEf}`);
-				const newEF = efCalc(lastEf, ease);
-				// console.log(`newEF: ${newEF}`);
-				// console.log(`Old Lose Streak${lastLstreak}`);
-				const newLstreak = 0;
-				// console.log(`New Lose Streak${newLstreak}`);
-				console.log(`Old Winstreak${lastWstreak}`);
-				const newWstreak = lastWstreak + 1;
-				console.log(`New Winstreak${newWstreak}`);
-				const newInt = daysToNext(newWstreak, newEF);
-				const nextDate = newDate(startTime, newInt);
-				// console.log(`Next Date is: ${nextDate}`);
-
-				newAtmp.ans = true;
-				newAtmp.ans_sec = seconds;
-				newAtmp.ease = ease;
-
-				newAtmp.wstreak = newWstreak;
-				newAtmp.lstreak = newLstreak;
-				newAtmp.ef = newEF;
-				newAtmp.interval = newInt;
-				newAtmp.next_up = nextDate;
-
-				console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nWin Streak: ${newAtmp.wstreak}\nNext Up: ${newAtmp.next_up}\n`);
-				docSave(newAtmp);
-
-				i.update(
-					{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up.toDateString()}`, embeds: [], components: [htmlContRow] },
-				);
-			} else if (i.customId === 'sa-practice-end') {
-				i.update(
-					{ content: 'Thank you for Practicing!', ephemeral: true, embeds: [], components: [] },
-				);
-			} else {
-				console.log(`⛔ Oh no! Incorrect!! ⌚ Time: ${seconds}`);
-				const ease = easinessCalc(false, seconds);
-				// console.log(`Ease calc: ${ease}`);
-				// console.log(`lastEf: ${lastEf}`);
-				const newEF = efCalc(lastEf, ease);
-				console.log(`Old Lose Streak${lastLstreak}`);
-				const newLstreak = lastLstreak + 1;
-				console.log(`New Lose Streak${newLstreak}`);
-				// console.log(`Old Winstreak${lastWstreak}`);
-				const newWstreak = 0;
-				// console.log(`New Winstreak${newWstreak}`);
-				const newInt = 0;
-				const nextDate = hoursToNext(startTime, 1);
-				// console.log(`Next Date is: ${nextDate}`);
-
-				newAtmp.ans = false;
-				newAtmp.ans_sec = seconds;
-				newAtmp.ease = ease;
-
-				newAtmp.wstreak = newWstreak;
-				newAtmp.lstreak = newLstreak;
-				newAtmp.ef = newEF;
-				newAtmp.interval = newInt;
-				newAtmp.next_up = nextDate;
-
-				console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nNext Up: ${newAtmp.next_up}\n`);
-				docSave(newAtmp);
-
-				i.update(
-					{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [htmlContRow] },
-				);
-			}
-		});
-
-		collector.on('end', collected => {
-			console.log(`Collected ${collected.size} interactions.`);
-		});
-
-		await interaction.update(
-			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow] },
+		// -------------------------------------------------------------------------------------------------------------
+		const buttonPressMsg = await interaction.update(
+			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
+
+		/* const filter = i => {
+			i.deferUpdate();
+			return i.user.id === interaction.user.id;
+		}; */
+
+		buttonPressMsg.awaitMessageComponent({ componentType: ComponentType.Button, time: secPerQuestion, max: 1 })
+			.then(i => {
+				const endTime = new Date();
+				// console.log(`End time: ${endTime}`);
+				const seconds = ((endTime - startTime) / 1000).toFixed(1);
+				// console.log(`Button pressed was: 〈⦿  ${i.customId.toUpperCase()} 〉`);
+
+				if (i.customId === correctResponse) {
+					console.log(`✅ Correct response logged! ⌚ Time: ${seconds}`);
+					const ease = easinessCalc(true, seconds);
+					// console.log(`Ease calc: ${ease}`);
+					// console.log(`lastEf: ${lastEf}`);
+					const newEF = efCalc(lastEf, ease);
+					// console.log(`newEF: ${newEF}`);
+					// console.log(`Old Lose Streak${lastLstreak}`);
+					const newLstreak = 0;
+					// console.log(`New Lose Streak${newLstreak}`);
+					console.log(`Old Winstreak${lastWstreak}`);
+					const newWstreak = lastWstreak + 1;
+					console.log(`New Winstreak${newWstreak}`);
+					const newInt = daysToNext(newWstreak, newEF);
+					const nextDate = newDate(startTime, newInt);
+					// console.log(`Next Date is: ${nextDate}`);
+
+					newAtmp.ans = true;
+					newAtmp.ans_sec = seconds;
+					newAtmp.ease = ease;
+
+					newAtmp.wstreak = newWstreak;
+					newAtmp.lstreak = newLstreak;
+					newAtmp.ef = newEF;
+					newAtmp.interval = newInt;
+					newAtmp.next_up = nextDate;
+
+					console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nWin Streak: ${newAtmp.wstreak}\nNext Up: ${newAtmp.next_up}\n`);
+					docSave(newAtmp);
+
+					i.update(
+						{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up}`, embeds: [], components: [htmlContRow] },
+					);
+				} else {
+					console.log(`⛔ Oh no! Incorrect!! ⌚ Time: ${seconds}`);
+					const ease = easinessCalc(false, seconds);
+					// console.log(`Ease calc: ${ease}`);
+					// console.log(`lastEf: ${lastEf}`);
+					const newEF = efCalc(lastEf, ease);
+					console.log(`Old Lose Streak${lastLstreak}`);
+					const newLstreak = lastLstreak + 1;
+					console.log(`New Lose Streak${newLstreak}`);
+					// console.log(`Old Winstreak${lastWstreak}`);
+					const newWstreak = 0;
+					// console.log(`New Winstreak${newWstreak}`);
+					const newInt = 0;
+					const nextDate = hoursToNext(startTime, 1);
+					// console.log(`Next Date is: ${nextDate}`);
+
+					newAtmp.ans = false;
+					newAtmp.ans_sec = seconds;
+					newAtmp.ease = ease;
+
+					newAtmp.wstreak = newWstreak;
+					newAtmp.lstreak = newLstreak;
+					newAtmp.ef = newEF;
+					newAtmp.interval = newInt;
+					newAtmp.next_up = nextDate;
+
+					console.log(`Updating DB Attempt ID: ${newAtmp._id}\nNew EF: ${newEF}\nNext Up: ${newAtmp.next_up}\n`);
+					docSave(newAtmp);
+
+					i.update(
+						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [htmlContRow] },
+					);
+				}
+			})
+			.catch(err => console.log(`Error: ${err}\n\n'No interactions were collected.'`));
 	},
 };
