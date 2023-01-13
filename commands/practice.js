@@ -20,7 +20,7 @@ const embed = new EmbedBuilder()
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('sa-practice')
+		.setName('practice')
 		.setDescription('Practice questions for a Skill Assessment.'),
 
 	async execute(interaction) {

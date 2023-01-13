@@ -1,5 +1,5 @@
 module.exports = {
-	customId: 'sa-practice-end',
+	customId: 'practice-end',
 	description: 'Ends practice session.',
 
 	async execute(interaction) {
