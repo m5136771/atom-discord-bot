@@ -1,56 +1,3 @@
-/* eslint-disable no-inline-comments */
-const config = require('../config.json');
-
-// --------------------
-// COMMAND HELPER FUNCTIONS
-// --------------------
-
-// Check if Role is a TSS-Class?
-function getClassInfo(roleId) {
-	let classObj = null;
-
-	switch (roleId) {
-	case '1014391186510856202':
-		classObj = config.classInfo.b2;
-		break;
-	case '1014391620323528704':
-		classObj = config.classInfo.b3;
-		break;
-	case '1014391439309938718':
-		classObj = config.classInfo.b4;
-		break;
-	case '1014391323027062794':
-		classObj = config.classInfo.b6;
-		break;
-
-	default:
-		console.log(`Selected Role (${roleId}) is not a class!`);
-		break;
-	}
-
-	return classObj;
-};
-
-async function getMembersWithRole(i, role) {
-	// get Disc_ids for everyone with class role
-	const membColl = await i.guild.members.fetch(); // get all members in guild
-	const discIds = []; // empty array to hold member ids
-
-	membColl
-		.filter(member => member.roles.cache.has(role.id)) // filter out all members that don't match the specified role
-		.each(member => discIds.push(member.id)); // for each one remaining, add to the prepared array
-	console.log(`Collection of member ids: ${discIds.toString()}`); // make sure it worked
-
-	if (discIds.length === 0) {
-		await i.reply({
-			content: 'No members found with this class role.',
-			ephemeral: true,
-		});
-		return discIds;
-	};
-};
-
-
 // --------------------
 // SPACED REPETITION HELPER FUNCTIONS
 // --------------------
@@ -70,7 +17,7 @@ function easinessCalc(ansCorrect, ansTime) {
 	} else {
 		if (ansTime >= 0 && ansTime <= 9) {
 			return 5;
-		} else if (ansTime >= 20 && ansTime <= 39) {
+		} else if (ansTime >= 10 && ansTime <= 39) {
 			return 4;
 		} else {
 			// longer than 39s, had to look up answer.
@@ -138,7 +85,8 @@ function newDate(today, interval) {
 function getRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+	return Math.floor(Math.random() * (max - min) + min);
+	// The maximum is exclusive and the minimum is inclusive
 };
 
 async function docSave(doc) {
@@ -150,8 +98,6 @@ module.exports = {
 	docSave,
 	easinessCalc,
 	efCalc,
-	getClassInfo,
-	getMembersWithRole,
 	getRandomInt,
 	hoursToNext,
 	newDate,
