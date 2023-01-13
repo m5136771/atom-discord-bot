@@ -87,10 +87,12 @@ module.exports = {
 					.findOne()
 					.where('student', studentId)
 					.where('r_atmp', false)
-					.sort({ next_up: -1 });
+					.where('next_up').exists(true)
+					.sort({ next_up: 1 });
 
+				const n = new Date(nextInLine.next_up);
 				await interaction.update(
-					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${nextInLine.next_up.toDateString()}`, ephemeral: true, embeds: [], components: [] },
+					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}`, ephemeral: true, embeds: [], components: [] },
 				);
 				console.log('No more quiz questions.. ending quiz.');
 				return;

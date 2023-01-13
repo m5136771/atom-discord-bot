@@ -22,8 +22,8 @@ module.exports = {
 		// Log Start Time
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
-		console.log(`Start time: ${startTime}`);
-		console.log(`startTimeISO: ${startTimeISO}`);
+		// console.log(`Start time: ${startTime}`);
+		// console.log(`startTimeISO: ${startTimeISO}`);
 
 		// Find Student in DB
 		const student = await Student.findOne({
@@ -48,10 +48,10 @@ module.exports = {
 			.then(
 				(doc) => {
 					if (doc === null) {
-						console.log('Next Up Queue Empty...');
+						// console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
-						console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
+						// console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
 						return doc;
 					}
 				},
@@ -61,35 +61,37 @@ module.exports = {
 			).catch(console.error);
 
 		if (!nextUp) {
-			console.log(`nextUp: ${nextUp}...`);
+			// console.log(`nextUp: ${nextUp}...`);
 		} else {
 			const questionDue = await Question
 				.findOneAndUpdate({ $inc: { tot_atmp: 1 } })
 				.where('_id', nextQuestion);
-			console.log(`questionDue is: ${questionDue}`);
+			// console.log(`questionDue is: ${questionDue}`);
 			nextQuestion = questionDue;
-			console.log(`Next Question found in Next_up: ${nextQuestion}`);
+			// console.log(`Next Question found in Next_up: ${nextQuestion}`);
 		}
 
 		// 2. IF !nextQuestion yet, Pull from DB:
 		if (!nextQuestion) {
-			console.log('Querying DB for count...');
+			// console.log('Querying DB for count...');
 			const queryForCount = await Question
 				.countDocuments()
 				.where('tags').in([`${saName}`])
 				.where('atmp_by').ne(studentId);
 
-			console.log(`queryForCount = ${queryForCount}`);
+			// console.log(`queryForCount = ${queryForCount}`);
 
 			if (queryForCount === 0) {
 				const nextInLine = await Attempt
 					.findOne()
 					.where('student', studentId)
 					.where('r_atmp', false)
-					.sort({ next_up: -1 });
+					.where('next_up').exists(true)
+					.sort({ next_up: 1 });
 
+				const n = new Date(nextInLine.next_up);
 				await interaction.update(
-					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${nextInLine.next_up.toDateString()}`, ephemeral: true, embeds: [], components: [] },
+					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}`, ephemeral: true, embeds: [], components: [] },
 				);
 				console.log('No more quiz questions.. ending quiz.');
 				return;
@@ -97,28 +99,28 @@ module.exports = {
 
 			// grab a question at random
 			const ranNum = getRandomInt(0, queryForCount - 1);
-			console.log(`Random number: ${ranNum} out of ${queryForCount}`);
+			// console.log(`Random number: ${ranNum} out of ${queryForCount}`);
 
-			console.log('Querying DB for question...');
+			// console.log('Querying DB for question...');
 			const questionDocs = await Question
 				.findOne()
 				.where('tags').in([`${saName}`])
 				.where('atmp_by').ne(studentId)
 				.skip(ranNum);
 
-			console.log(`Question text found: ${questionDocs.text}`);
-			console.log(`Total Attempts: ${questionDocs.tot_atmp}`);
+			// console.log(`Question text found: ${questionDocs.text}`);
+			// console.log(`Total Attempts: ${questionDocs.tot_atmp}`);
 
-			console.log(`Skipped ${ranNum} and found question with Question ID: ${questionDocs._id}!`);
+			// console.log(`Skipped ${ranNum} and found question with Question ID: ${questionDocs._id}!`);
 			nextQuestion = questionDocs;
 
 			// Log Question in Student doc as Attempted
 			questionDocs.tot_atmp += 1;
-			console.log(`Total Attempts: ${questionDocs.tot_atmp}`);
+			// console.log(`Total Attempts: ${questionDocs.tot_atmp}`);
 			questionDocs.atmp_by = studentId;
 			docSave(questionDocs);
 		} else {
-			console.log(`Question ${nextQuestion} is ready; moving forward`);
+			// console.log(`Question ${nextQuestion} is ready; moving forward`);
 		};
 
 		// 3. Create new Attempt Doc in DB
@@ -130,7 +132,7 @@ module.exports = {
 
 		const attemptId = atmp._id;
 
-		console.log('Creating new Attempt Doc');
+		// console.log('Creating new Attempt Doc');
 		docSave(atmp);
 
 		// 4. send question to student
@@ -141,27 +143,27 @@ module.exports = {
 
 		const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.Button, time: 90000, max: 1 });
 		const correctResponse = nextQuestion.ans;
-		console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
+		// console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
 
 		const lastAtmp = await Attempt
 			.findOne()
 			.where('qs', nextQuestion._id)
 			.where('student', studentId)
 			.sort({ createdAt: -1 });
-		console.log(`Last Attempt found: ${lastAtmp}`);
+		// console.log(`Last Attempt found: ${lastAtmp}`);
 
 		let lastWstreak = 0;
 		let lastLstreak = 0;
 		let lastEf = 2.5;
 		if (!lastAtmp) {
-			console.log(`lastAtmp: ${lastAtmp}`);
+			// console.log(`lastAtmp: ${lastAtmp}`);
 		} else {
 			lastWstreak = lastAtmp.wstreak;
 			lastLstreak = lastAtmp.lstreak;
 			lastEf = lastAtmp.ef;
-			console.log(`lastAtmp wstreak: ${lastWstreak}`);
-			console.log(`lastAtmp lstreak: ${lastLstreak}`);
-			console.log(`lastAtmp ef: ${lastEf}`);
+			// console.log(`lastAtmp wstreak: ${lastWstreak}`);
+			// console.log(`lastAtmp lstreak: ${lastLstreak}`);
+			// console.log(`lastAtmp ef: ${lastEf}`);
 
 			lastAtmp.r_atmp = true;
 			docSave(lastAtmp);
@@ -171,27 +173,27 @@ module.exports = {
 
 		collector.on('collect', i => {
 			const endTime = new Date();
-			console.log(`End time: ${endTime}`);
+			// console.log(`End time: ${endTime}`);
 			const seconds = ((endTime - startTime) / 1000).toFixed(1);
-			console.log(`Button pressed was: 〈⦿  ${i.customId.toUpperCase()} 〉`);
+			// console.log(`Button pressed was: 〈⦿  ${i.customId.toUpperCase()} 〉`);
 
 
 			if (i.customId === correctResponse) {
 				console.log(`✅ Correct response logged! ⌚ Time: ${seconds}`);
 				const ease = easinessCalc(true, seconds);
-				console.log(`Ease calc: ${ease}`);
-				console.log(`lastEf: ${lastEf}`);
+				// console.log(`Ease calc: ${ease}`);
+				// console.log(`lastEf: ${lastEf}`);
 				const newEF = efCalc(lastEf, ease);
-				console.log(`newEF: ${newEF}`);
-				console.log(`Old Lose Streak${lastLstreak}`);
+				// console.log(`newEF: ${newEF}`);
+				// console.log(`Old Lose Streak${lastLstreak}`);
 				const newLstreak = 0;
-				console.log(`New Lose Streak${newLstreak}`);
+				// console.log(`New Lose Streak${newLstreak}`);
 				console.log(`Old Winstreak${lastWstreak}`);
 				const newWstreak = lastWstreak + 1;
 				console.log(`New Winstreak${newWstreak}`);
 				const newInt = daysToNext(newWstreak, newEF);
 				const nextDate = newDate(startTime, newInt);
-				console.log(`Next Date is: ${nextDate}`);
+				// console.log(`Next Date is: ${nextDate}`);
 
 				newAtmp.ans = true;
 				newAtmp.ans_sec = seconds;
@@ -216,18 +218,18 @@ module.exports = {
 			} else {
 				console.log(`⛔ Oh no! Incorrect!! ⌚ Time: ${seconds}`);
 				const ease = easinessCalc(false, seconds);
-				console.log(`Ease calc: ${ease}`);
-				console.log(`lastEf: ${lastEf}`);
+				// console.log(`Ease calc: ${ease}`);
+				// console.log(`lastEf: ${lastEf}`);
 				const newEF = efCalc(lastEf, ease);
 				console.log(`Old Lose Streak${lastLstreak}`);
 				const newLstreak = lastLstreak + 1;
 				console.log(`New Lose Streak${newLstreak}`);
-				console.log(`Old Winstreak${lastWstreak}`);
+				// console.log(`Old Winstreak${lastWstreak}`);
 				const newWstreak = 0;
-				console.log(`New Winstreak${newWstreak}`);
+				// console.log(`New Winstreak${newWstreak}`);
 				const newInt = 0;
 				const nextDate = hoursToNext(startTime, 1);
-				console.log(`Next Date is: ${nextDate}`);
+				// console.log(`Next Date is: ${nextDate}`);
 
 				newAtmp.ans = false;
 				newAtmp.ans_sec = seconds;
@@ -248,7 +250,6 @@ module.exports = {
 			}
 		});
 
-		// eslint-diQuestionble-next-line no-unused-vars
 		collector.on('end', collected => {
 			console.log(`Collected ${collected.size} interactions.`);
 		});

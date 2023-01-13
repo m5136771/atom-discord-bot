@@ -23,8 +23,8 @@ module.exports = {
 		// Log Start Time
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
-		console.log(`Start time: ${startTime}`);
-		console.log(`startTimeISO: ${startTimeISO}`);
+		// console.log(`Start time: ${startTime}`);
+		// console.log(`startTimeISO: ${startTimeISO}`);
 
 		// Find Student in DB
 		const student = await Student.findOne({
@@ -50,10 +50,10 @@ module.exports = {
 			.then(
 				(doc) => {
 					if (doc === null) {
-						console.log('Next Up Queue Empty...');
+						// console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
-						console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
+						// console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
 						return doc;
 					}
 				},
@@ -63,37 +63,39 @@ module.exports = {
 			).catch(console.error);
 
 		if (!nextUp) {
-			console.log(`nextUp: ${nextUp}...`);
+			// console.log(`nextUp: ${nextUp}...`);
 		} else {
 			const questionDue = await Question
 				.findOneAndUpdate({ $inc: { tot_atmp: 1 } })
 				.where('_id', nextQuestion);
-			console.log(`questionDue is: ${questionDue}`);
+			// console.log(`questionDue is: ${questionDue}`);
 			nextQuestion = questionDue;
-			console.log(`Next Question found in Next_up: ${nextQuestion}`);
+			// console.log(`Next Question found in Next_up: ${nextQuestion}`);
 		}
 
 		// 2. IF !nextQuestion yet, Pull from DB:
 		if (!nextQuestion) {
-			console.log('Querying DB for count...');
+			// console.log('Querying DB for count...');
 			const queryForCount = await Question
 				.countDocuments()
 				.where('tags').in([`${saName}`])
 				.where('atmp_by').ne(studentId);
 
-			console.log(`queryForCount = ${queryForCount}`);
+			// console.log(`queryForCount = ${queryForCount}`);
 
 			if (queryForCount === 0) {
 				const nextInLine = await Attempt
 					.findOne()
 					.where('student', studentId)
 					.where('r_atmp', false)
-					.sort({ next_up: -1 });
+					.where('next_up').exists(true)
+					.sort({ next_up: 1 });
 
+				const n = new Date(nextInLine.next_up);
 				await interaction.update(
-					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${nextInLine.next_up.toDateString()}`, ephemeral: true, embeds: [], components: [] },
+					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}`, ephemeral: true, embeds: [], components: [] },
 				);
-				console.log('No more quiz questions.. ending quiz.');
+				// console.log('No more quiz questions.. ending quiz.');
 				return;
 			}
 
