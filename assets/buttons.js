@@ -10,7 +10,7 @@ const agileButton = new ButtonBuilder()
 const apcspButton = new ButtonBuilder()
 	.setCustomId('apcsp-next')
 	.setLabel('AP CSP')
-	.setDisabled(true)
+	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
 const blenderButton = new ButtonBuilder()
@@ -34,7 +34,7 @@ const htmlButton = new ButtonBuilder()
 const pythonButton = new ButtonBuilder()
 	.setCustomId('python-next')
 	.setLabel('Python')
-	.setDisabled(true)
+	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
 const unityButton = new ButtonBuilder()
@@ -70,14 +70,25 @@ const endButton = new ButtonBuilder()
 	.setLabel('Submit & End')
 	.setStyle(ButtonStyle.Success);
 
-const nextButton = new ButtonBuilder()
+const apcspNextButton = new ButtonBuilder()
+	.setCustomId('apcsp-next')
+	.setLabel('Next Question')
+	.setStyle(ButtonStyle.Primary);
+
+const htmlNextButton = new ButtonBuilder()
 	.setCustomId('html-next')
+	.setLabel('Next Question')
+	.setStyle(ButtonStyle.Primary);
+
+const pythonNextButton = new ButtonBuilder()
+	.setCustomId('python-next')
 	.setLabel('Next Question')
 	.setStyle(ButtonStyle.Primary);
 
 module.exports = {
 	ans1, ans2,	ans3, ans4,
-	endButton, nextButton,
+	endButton,
+	apcspNextButton, htmlNextButton, pythonNextButton,
 	agileButton, apcspButton, blenderButton,
 	hardwareButton, htmlButton,
 	pythonButton, unityButton,

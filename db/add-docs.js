@@ -1,17 +1,16 @@
-/* eslint-disable no-inline-comments */
 /*
 
 	Standalone script to create a Question and load questions into 'Questionzes' DB collection.
 
 */
 
-// DECLARE Question
+// DECLARE QUESTION BEFORE RUNNING
 // ------------------------------
 // ------------------------------
-const fileName = '../question-banks/html.json';
+const fileName = '../question-banks/apcsp.json';
 // ------------------------------
 // ------------------------------
-
+// RUN
 
 // Base imports
 const mongoose = require('mongoose');
