@@ -66,29 +66,13 @@ const ans4 = new ButtonBuilder()
 
 // Skill Assessment Continuation Options
 const endButton = new ButtonBuilder()
-	.setCustomId('sa-practice-end')
+	.setCustomId('practice-end')
 	.setLabel('Submit & End')
 	.setStyle(ButtonStyle.Success);
-
-const apcspNextButton = new ButtonBuilder()
-	.setCustomId('apcsp-next')
-	.setLabel('Next Question')
-	.setStyle(ButtonStyle.Primary);
-
-const htmlNextButton = new ButtonBuilder()
-	.setCustomId('html-next')
-	.setLabel('Next Question')
-	.setStyle(ButtonStyle.Primary);
-
-const pythonNextButton = new ButtonBuilder()
-	.setCustomId('python-next')
-	.setLabel('Next Question')
-	.setStyle(ButtonStyle.Primary);
 
 module.exports = {
 	ans1, ans2,	ans3, ans4,
 	endButton,
-	apcspNextButton, htmlNextButton, pythonNextButton,
 	agileButton, apcspButton, blenderButton,
 	hardwareButton, htmlButton,
 	pythonButton, unityButton,
