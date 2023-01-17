@@ -9,7 +9,7 @@ const agileButton = new ButtonBuilder()
 
 const agileNextButton = new ButtonBuilder()
 	.setCustomId('agile-next')
-	.setLabel('Agile Scrum')
+	.setLabel('Next Question')
 	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
