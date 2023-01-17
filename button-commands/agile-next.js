@@ -19,6 +19,7 @@ module.exports = {
 	description: 'Moves to next question.',
 
 	async execute(interaction) {
+		await interaction.deferReply({ ephemeral: true });
 
 		// Log Start Time
 		const startTime = new Date();
@@ -92,7 +93,7 @@ module.exports = {
 					.sort({ next_up: 1 });
 
 				const n = new Date(nextInLine.next_up);
-				await interaction.update(
+				await interaction.editReply(
 					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}`, ephemeral: true, embeds: [], components: [] },
 				);
 				console.log('No more quiz questions.. ending quiz.');
@@ -175,7 +176,7 @@ module.exports = {
 
 		const newAtmp = await Attempt.findById(attemptId);
 
-		const buttonPressMsg = await interaction.update(
+		const buttonPressMsg = await interaction.editReply(
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
 

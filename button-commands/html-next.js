@@ -19,6 +19,7 @@ module.exports = {
 	description: 'Moves to next question.',
 
 	async execute(interaction) {
+		await interaction.deferReply({ ephemeral: true });
 
 		// Log Start Time
 		const startTime = new Date();
