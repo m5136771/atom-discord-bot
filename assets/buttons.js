@@ -13,6 +13,11 @@ const apcspButton = new ButtonBuilder()
 	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
+const apcspNextButton = new ButtonBuilder()
+	.setCustomId('apcsp-next')
+	.setLabel('Next Question')
+	.setStyle(ButtonStyle.Primary);
+
 const blenderButton = new ButtonBuilder()
 	.setCustomId('blender-next')
 	.setLabel('Blender 3D')
@@ -31,10 +36,21 @@ const htmlButton = new ButtonBuilder()
 	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
+const htmlNextButton = new ButtonBuilder()
+	.setCustomId('html-next')
+	.setLabel('Next Question')
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
 const pythonButton = new ButtonBuilder()
 	.setCustomId('python-next')
 	.setLabel('Python')
 	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const pythonNextButton = new ButtonBuilder()
+	.setCustomId('python-next')
+	.setLabel('Next Question')
 	.setStyle(ButtonStyle.Primary);
 
 const unityButton = new ButtonBuilder()
@@ -69,21 +85,6 @@ const endButton = new ButtonBuilder()
 	.setCustomId('sa-practice-end')
 	.setLabel('Submit & End')
 	.setStyle(ButtonStyle.Success);
-
-const apcspNextButton = new ButtonBuilder()
-	.setCustomId('apcsp-next')
-	.setLabel('Next Question')
-	.setStyle(ButtonStyle.Primary);
-
-const htmlNextButton = new ButtonBuilder()
-	.setCustomId('html-next')
-	.setLabel('Next Question')
-	.setStyle(ButtonStyle.Primary);
-
-const pythonNextButton = new ButtonBuilder()
-	.setCustomId('python-next')
-	.setLabel('Next Question')
-	.setStyle(ButtonStyle.Primary);
 
 module.exports = {
 	ans1, ans2,	ans3, ans4,
