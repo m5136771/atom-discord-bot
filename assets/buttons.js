@@ -4,7 +4,13 @@ const { ButtonBuilder, ButtonStyle } = require('discord.js');
 const agileButton = new ButtonBuilder()
 	.setCustomId('agile-next')
 	.setLabel('Agile Scrum')
-	.setDisabled(true)
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const agileNextButton = new ButtonBuilder()
+	.setCustomId('agile-next')
+	.setLabel('Agile Scrum')
+	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
 const apcspButton = new ButtonBuilder()
@@ -82,14 +88,14 @@ const ans4 = new ButtonBuilder()
 
 // Skill Assessment Continuation Options
 const endButton = new ButtonBuilder()
-	.setCustomId('sa-practice-end')
+	.setCustomId('practice-end')
 	.setLabel('Submit & End')
 	.setStyle(ButtonStyle.Success);
 
 module.exports = {
 	ans1, ans2,	ans3, ans4,
 	endButton,
-	apcspNextButton, htmlNextButton, pythonNextButton,
+	agileNextButton, apcspNextButton, htmlNextButton, pythonNextButton,
 	agileButton, apcspButton, blenderButton,
 	hardwareButton, htmlButton,
 	pythonButton, unityButton,

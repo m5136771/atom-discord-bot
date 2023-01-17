@@ -2,7 +2,7 @@ const { ActionRowBuilder } = require('discord.js');
 const {
 	ans1, ans2,	ans3, ans4,
 	endButton,
-	apcspNextButton, htmlNextButton, pythonNextButton,
+	agileNextButton, apcspNextButton, htmlNextButton, pythonNextButton,
 	agileButton, apcspButton, blenderButton,
 	hardwareButton, htmlButton,
 	pythonButton, unityButton,
@@ -10,6 +10,9 @@ const {
 
 const ansRow = new ActionRowBuilder()
 	.addComponents(ans1, ans2, ans3, ans4);
+
+const agileContRow = new ActionRowBuilder()
+	.addComponents(agileNextButton, endButton);
 
 const apcspContRow = new ActionRowBuilder()
 	.addComponents(apcspNextButton, endButton);
@@ -28,6 +31,7 @@ const SAOptionsRow2 = new ActionRowBuilder()
 
 module.exports = {
 	ansRow,
+	agileContRow,
 	apcspContRow,
 	htmlContRow,
 	pythonContRow,
