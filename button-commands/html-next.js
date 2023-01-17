@@ -38,6 +38,7 @@ module.exports = {
 		// 1. Pull questions, if any, from "next_up" (next_up info is logged into Attempt Docs, which links to student and question)
 		// IF 'reattempted: false', meaning it has only displayed once since creation
 		// and set the one found to 'reattempted: true' so we know this attempt has been sent a second time.
+		// NOTE: This will search attempts from ANY set of questions. Anything this student has due will show up, no matter which quiz selected.
 		const nextUp = await Attempt
 			.findOneAndUpdate({ r_atmp: true })
 			.where('next_up').lte(startTimeISO)
@@ -124,11 +125,13 @@ module.exports = {
 			// console.log(`Question ${nextQuestion} is ready; moving forward`);
 		};
 
+		const questionId = nextQuestion._id;
+
 		// 3. Create new Attempt Doc in DB
 		const atmp = new Attempt({
 			student: student._id,
 			graded: false,
-			qs: nextQuestion._id,
+			qs: questionId,
 		});
 
 		const attemptId = atmp._id;
@@ -148,7 +151,7 @@ module.exports = {
 
 		const lastAtmp = await Attempt
 			.findOne()
-			.where('qs', nextQuestion._id)
+			.where('qs', questionId)
 			.where('student', studentId)
 			.sort({ createdAt: -1 });
 		// console.log(`Last Attempt found: ${lastAtmp}`);
@@ -172,7 +175,6 @@ module.exports = {
 
 		const newAtmp = await Attempt.findById(attemptId);
 
-		// -------------------------------------------------------------------------------------------------------------
 		const buttonPressMsg = await interaction.update(
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);

@@ -145,7 +145,7 @@ module.exports = {
 			.setTitle('Your Question')
 			.setDescription(`${nextQuestion.text}\n**A**: ${nextQuestion.choices.a}\n**B**: ${nextQuestion.choices.b}\n**C**: ${nextQuestion.choices.c}\n**D**: ${nextQuestion.choices.d}\n`);
 
-		const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.Button, time: secPerQuestion, max: 1 });
+		// const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.Button, time: secPerQuestion, max: 1 });
 		const correctResponse = nextQuestion.ans;
 		// console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
 
@@ -179,10 +179,6 @@ module.exports = {
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
 
-		/* const filter = i => {
-			i.deferUpdate();
-			return i.user.id === interaction.user.id;
-		}; */
 
 		buttonPressMsg.awaitMessageComponent({ componentType: ComponentType.Button, time: secPerQuestion, max: 1 })
 			.then(i => {
@@ -254,7 +250,7 @@ module.exports = {
 					docSave(newAtmp);
 
 					i.update(
-						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [htmlContRow] },
+						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [apcspContRow] },
 					);
 				}
 			})
