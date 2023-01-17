@@ -19,7 +19,6 @@ module.exports = {
 	description: 'Moves to next question.',
 
 	async execute(interaction) {
-		await interaction.deferReply({ ephemeral: true });
 
 		// Log Start Time
 		const startTime = new Date();
@@ -44,6 +43,7 @@ module.exports = {
 			.findOneAndUpdate({ r_atmp: true })
 			.where('next_up').lte(startTimeISO)
 			.where('student', studentId)
+			.where('tags').in([`${saName}`])
 			.where('r_atmp', false)
 			.sort({ next_up: -1 })
 			// sort by 'first in; first out'
