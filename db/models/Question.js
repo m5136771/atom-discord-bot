@@ -2,8 +2,11 @@ const { model, Schema } = require('mongoose');
 const ObjectId = Schema.Types.ObjectId;
 
 const questionSchema = new Schema({
+	qNum: { type: String, unique: true },
 	sa: [{ type: ObjectId, ref: 'Skill Assessment' }],
 
+	directions: String,
+	img: String,
 	text: String,
 	choices: {
 		a: String,
@@ -13,6 +16,8 @@ const questionSchema = new Schema({
 	},
 	ans: String,
 	tags: Array,
+	source: String,
+	sec: String,
 
 	tot_atmp: { type: Number, default: 0 },
 	atmp_by: [{ type: ObjectId, ref: 'Student' }],
