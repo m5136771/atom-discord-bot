@@ -180,10 +180,6 @@ module.exports = {
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
 
-		/* const filter = i => {
-			i.deferUpdate();
-			return i.user.id === interaction.user.id;
-		}; */
 
 		buttonPressMsg.awaitMessageComponent({ componentType: ComponentType.Button, time: secPerQuestion, max: 1 })
 			.then(i => {

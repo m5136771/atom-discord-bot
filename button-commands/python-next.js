@@ -30,7 +30,7 @@ module.exports = {
 		const student = await Student.findOne({
 			disc_id: interaction.user.id,
 		}).exec();
-		// console.log(`Student: ${student.disc_tag}\nStudent ID: ${student._id}`);
+		console.log(`Student: ${student.disc_tag}\nStudent ID: ${student._id}`);
 		const studentId = student._id;
 
 		let nextQuestion = undefined;

@@ -30,7 +30,7 @@ module.exports = {
 		const student = await Student.findOne({
 			disc_id: interaction.user.id,
 		}).exec();
-		// console.log(`Student: ${student.disc_tag}\nStudent ID: ${student._id}`);
+		console.log(`Student: ${student.disc_tag}\nStudent ID: ${student._id}`);
 		const studentId = student._id;
 
 		let nextQuestion = undefined;
@@ -93,7 +93,7 @@ module.exports = {
 					.sort({ next_up: 1 });
 
 				const n = new Date(nextInLine.next_up);
-				await interaction.editReply(
+				await interaction.update(
 					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}`, ephemeral: true, embeds: [], components: [] },
 				);
 				console.log('No more quiz questions.. ending quiz.');
@@ -176,7 +176,7 @@ module.exports = {
 
 		const newAtmp = await Attempt.findById(attemptId);
 
-		const buttonPressMsg = await interaction.editReply(
+		const buttonPressMsg = await interaction.update(
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
 
