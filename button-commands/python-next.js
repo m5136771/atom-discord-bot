@@ -21,6 +21,8 @@ module.exports = {
 	async execute(interaction) {
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
+		// console.log(`Start time: ${startTime}`);
+		// console.log(`startTimeISO: ${startTimeISO}`);
 
 		// Find Student in DB
 		const student = await Student.findOne({
@@ -35,6 +37,7 @@ module.exports = {
 			.findOneAndUpdate({ r_atmp: true })
 			.where('next_up').lte(startTimeISO)
 			.where('student', studentId)
+			.where('tags').in([`${saName}`])
 			.where('r_atmp', false)
 			.sort({ next_up: -1 })
 
@@ -63,6 +66,7 @@ module.exports = {
 		}
 
 		if (!nextQuestion) {
+			// console.log('Querying DB for count...');
 			const queryForCount = await Question
 				.countDocuments()
 				.where('tags').in([`${saName}`])
@@ -85,6 +89,7 @@ module.exports = {
 			}
 
 			const ranNum = getRandomInt(0, queryForCount - 1);
+
 			const questionDocs = await Question
 				.findOne()
 				.where('tags').in([`${saName}`])

@@ -4,13 +4,24 @@ const { ButtonBuilder, ButtonStyle } = require('discord.js');
 const agileButton = new ButtonBuilder()
 	.setCustomId('agile-next')
 	.setLabel('Agile Scrum')
-	.setDisabled(true)
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const agileNextButton = new ButtonBuilder()
+	.setCustomId('agile-next')
+	.setLabel('Next Question')
+	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
 const apcspButton = new ButtonBuilder()
 	.setCustomId('apcsp-next')
 	.setLabel('AP CSP')
 	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const apcspNextButton = new ButtonBuilder()
+	.setCustomId('apcsp-next')
+	.setLabel('Next Question')
 	.setStyle(ButtonStyle.Primary);
 
 const blenderButton = new ButtonBuilder()
@@ -31,10 +42,21 @@ const htmlButton = new ButtonBuilder()
 	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
+const htmlNextButton = new ButtonBuilder()
+	.setCustomId('html-next')
+	.setLabel('Next Question')
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
 const pythonButton = new ButtonBuilder()
 	.setCustomId('python-next')
 	.setLabel('Python')
 	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const pythonNextButton = new ButtonBuilder()
+	.setCustomId('python-next')
+	.setLabel('Next Question')
 	.setStyle(ButtonStyle.Primary);
 
 const unityButton = new ButtonBuilder()
@@ -73,6 +95,7 @@ const endButton = new ButtonBuilder()
 module.exports = {
 	ans1, ans2,	ans3, ans4,
 	endButton,
+	agileNextButton, apcspNextButton, htmlNextButton, pythonNextButton,
 	agileButton, apcspButton, blenderButton,
 	hardwareButton, htmlButton,
 	pythonButton, unityButton,

@@ -8,7 +8,7 @@ const atmpSchema = new Schema({
 	graded: { type: Boolean, default: false },
 	qs: { type: ObjectId, ref: 'Question' },
 
-	ans: Boolean,
+	ans: { type: Boolean, default: false },
 	ans_sec: { type: Number, max: 90 },
 	ease:  Number,
 
