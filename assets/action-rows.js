@@ -15,13 +15,13 @@ const agileContRow = new ActionRowBuilder()
 	.addComponents(agileNextButton, endButton);
 
 const apcspContRow = new ActionRowBuilder()
-	.addComponents(apcspButton, endButton);
+	.addComponents(apcspNextButton, endButton);
 
 const htmlContRow = new ActionRowBuilder()
-	.addComponents(htmlButton, endButton);
+	.addComponents(htmlNextButton, endButton);
 
 const pythonContRow = new ActionRowBuilder()
-	.addComponents(pythonButton, endButton);
+	.addComponents(pythonNextButton, endButton);
 
 const SAOptionsRow1 = new ActionRowBuilder()
 	.addComponents(agileButton, apcspButton, blenderButton);
