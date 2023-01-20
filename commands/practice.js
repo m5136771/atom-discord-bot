@@ -25,8 +25,7 @@ module.exports = {
 
 	async execute(interaction) {
 
-		await interaction.deferReply({ ephemeral: true });
-		await interaction.editReply({
+		await interaction.reply({
 			ephemeral: true,
 			embeds: [embed],
 			components: [SAOptionsRow1, SAOptionsRow2],

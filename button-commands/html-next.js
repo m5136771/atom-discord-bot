@@ -19,6 +19,7 @@ module.exports = {
 	description: 'Moves to next question.',
 
 	async execute(interaction) {
+		await interaction.deferReply({ ephemeral: true });
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
 
@@ -146,7 +147,7 @@ module.exports = {
 
 		const newAtmp = await Attempt.findById(attemptId);
 
-		const buttonPressMsg = await interaction.update(
+		const buttonPressMsg = await interaction.editReply(
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
 
