@@ -12,10 +12,11 @@ const embed = new EmbedBuilder()
 	.setTitle('Skill Assessment Practice')
 	.setDescription('These questions are designed to help you practice for a future graded assessment.')
 	.addFields(
-		{ name: 'Where do the questions come from?', value: 'I use a question bank to hold tons of practice questions related to the subject. These questions will be pulled from the question bank unless you have questions to answer in your personal queue.' },
-		{ name: 'What is my Personal Queue?', value: 'These questions use spaced repetition to help you learn; You should expect to see the same questions periodically depending on how well the algorithm thinks you know the answers (questions you get right will show up less frequently).' },
-		{ name: 'How does Spaced Repetition work?', value: 'Every time you attempt a question, I will log your response, its correctness, and how long it took to answer. I\'ll use that data to calculate how "easy" the question was for you to answer. When you get it right, the algorithm will determine when to show it to you next. The time between recurring questions will be longer and longer depending on your "win streak." If you get one wrong, the streak will reset and so will the repetition intervals.' },
-		{ name: 'Goal', value: 'The goal is to **learn**. If you need to Google something or look into your notes or ask a friend, please do, but remember that just finding the answer without understanding the answer will negatively affect your ability to perform well on the graded assessment in class; Take time to learn the answers now whilw it\'s still "practice."' },
+		{ name: '😖 I don\'t know the answers!', value: 'You\'re not expected to. Part of this is to practice your ability to FIND answers when you don\'nt know them.' },
+		{ name: '🤔 How will I learn?', value: 'Google the questions you don\'nt know. Ask your teammates. Be curious. Figure it out. Don\'t answer until you\'re sure you know the correct response.' },
+		{ name: '⌚ How much time do I have?', value: 'You have 10 minutes to answer any one of these questions, so take your time.' },
+		{ name: '🅰️ Which questions are graded?', value: 'Practice questions are not graded; Graded assessments will be done in class, and will be composed of 15 questions *of those **you personally** have already attempted.* No random questions you\'ve never seen before.' },
+		{ name: '🧮 How are grades calculated?', value: 'You can get 4 questions wrong and still end with 100%.' },
 	);
 
 module.exports = {
