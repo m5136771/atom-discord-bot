@@ -120,7 +120,13 @@ module.exports = {
 			// Log Question in Student doc as Attempted
 			questionDocs.tot_atmp += 1;
 			console.log(`Total Attempts: ${questionDocs.tot_atmp}`);
-			questionDocs.atmp_by = studentId;
+			const index = questionDocs.atmp_by.indexOf(studentId);
+			if (index === -1) {
+				questionDocs.atmp_by.push(studentId);
+				console.log(`Student ${studentId} added to atmp_by`);
+			} else {
+				console.log('Student already in atmp_by');
+			}
 			docSave(questionDocs);
 		} else {
 			// console.log(`Question ${nextQuestion} is ready; moving forward`);
