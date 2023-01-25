@@ -16,7 +16,7 @@ const agileNextButton = new ButtonBuilder()
 const apcspButton = new ButtonBuilder()
 	.setCustomId('apcsp-next')
 	.setLabel('AP CSP')
-	.setDisabled(false)
+	.setDisabled(true)
 	.setStyle(ButtonStyle.Primary);
 
 const apcspNextButton = new ButtonBuilder()
