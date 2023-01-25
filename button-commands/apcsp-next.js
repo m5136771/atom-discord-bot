@@ -12,7 +12,8 @@ const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursT
 const { ansRow, apcspContRow } = require('../assets/action-rows');
 
 const saName = 'apcsp';
-const secPerQuestion = 103000;
+const secPerQuestion = 600000;
+// const secPerQuestion = 103000;
 
 module.exports = {
 	customId: `${saName}-next`,

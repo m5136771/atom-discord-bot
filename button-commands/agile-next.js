@@ -12,7 +12,7 @@ const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursT
 const { ansRow, agileContRow } = require('../assets/action-rows');
 
 const saName = 'agile';
-const secPerQuestion = 90000;
+const secPerQuestion = 600000;
 
 module.exports = {
 	customId: `${saName}-next`,
