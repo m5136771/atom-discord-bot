@@ -12,13 +12,15 @@ const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursT
 const { ansRow, apcspContRow } = require('../assets/action-rows');
 
 const saName = 'apcsp';
-const secPerQuestion = 103000;
+const secPerQuestion = 600000;
+// const secPerQuestion = 103000;
 
 module.exports = {
 	customId: `${saName}-next`,
 	description: 'Moves to next question.',
 
 	async execute(interaction) {
+		await interaction.deferReply({ ephemeral: true });
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
 
@@ -78,8 +80,8 @@ module.exports = {
 					.sort({ next_up: 1 });
 
 				const n = new Date(nextInLine.next_up);
-				await interaction.update(
-					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}`, ephemeral: true, embeds: [], components: [] },
+				await interaction.editReply(
+					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}. (Not necessarily this quiz)`, ephemeral: true, embeds: [], components: [] },
 				);
 				console.log('No more quiz questions.. ending quiz.');
 				return;
@@ -101,6 +103,8 @@ module.exports = {
 		};
 
 		const questionId = nextQuestion._id;
+		const imgString = nextQuestion.img;
+		const directionText = nextQuestion.directions;
 
 		// Create new Attempt Doc in DB
 		const atmp = new Attempt({
@@ -116,7 +120,21 @@ module.exports = {
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
 			.setTitle('Your Question')
-			.setDescription(`${nextQuestion.text}\n**A**: ${nextQuestion.choices.a}\n**B**: ${nextQuestion.choices.b}\n**C**: ${nextQuestion.choices.c}\n**D**: ${nextQuestion.choices.d}\n`);
+			.addFields({ name: 'Question text', value: `${nextQuestion.text}` })
+			.addFields(
+				{ name: 'A', value: `${nextQuestion.choices.a}` },
+				{ name: 'B', value: `${nextQuestion.choices.b}` },
+				{ name: 'C', value: `${nextQuestion.choices.c}` },
+				{ name: 'D', value: `${nextQuestion.choices.d}` },
+			);
+
+		if (directionText) {
+			embed.setDescription(`${nextQuestion.directions}`);
+		}
+
+		if (imgString) {
+			embed.setImage(`${imgString}`);
+		}
 
 		const correctResponse = nextQuestion.ans;
 
@@ -142,7 +160,7 @@ module.exports = {
 
 		const newAtmp = await Attempt.findById(attemptId);
 
-		const buttonPressMsg = await interaction.update(
+		const buttonPressMsg = await interaction.editReply(
 			{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
 		).catch(console.error);
 

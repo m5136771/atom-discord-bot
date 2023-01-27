@@ -1,27 +1,24 @@
 const { model, Schema } = require('mongoose');
-const { questionSchema } = require('./Question');
 const ObjectId = Schema.Types.ObjectId;
 
 const skillAssessmentSchema = new Schema({
-	_id: ObjectId,
+	student: { type: ObjectId, ref: 'Student' },
 
 	name: String,
-	abbrv: String,
-	linkedin: Boolean,
-	qBank: Number,
-
 	qSet: {
-		type: [questionSchema],
-		validate: {
-			validator: function(value) {
-				return value.length === 15;
-			},
-			message: 'Assessment should have 15 questions.',
-		},
+		qs: Array,
+		answered: { type: Number, default: 0 },
+		correct: [{ type: ObjectId, ref: 'Question' }],
+		missed: [{ type: ObjectId, ref: 'Question' }],
 	},
+	fin: { type: Boolean, default: false },
+	grade: Number,
 
 	avg_ef: Number,
 	med_ef: Number,
+},
+{
+	timestamps: true,
 });
 
 module.exports = model('SkillAssessment', skillAssessmentSchema, 'assessments');
