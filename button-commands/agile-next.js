@@ -265,8 +265,8 @@ module.exports = {
 				}
 			}, (reason => {
 				console.log(`🚫⌛ No response collected!\nReason: ${reason}\n`);
-				console.log(`Deleting attempt: ${newAtmp}.`);
-				docDelete(Attempt, newAtmp._id);
+				console.log(`Deleting attempt: ${attemptId}.`);
+				docDelete(Attempt, attemptId);
 
 				interaction.editReply(
 					{ content: 'Timed out... you really took your time with this one! Attempt cleared from database; this won\'t affect your stats.', embeds: [], components: [agileContRow] },
@@ -274,8 +274,8 @@ module.exports = {
 			}))
 			.catch(err => {
 				console.log(`🚫⌛ No response collected!\nError: ${err}.`);
-				console.log(`Deleting attempt: ${newAtmp}.`);
-				docDelete(Attempt, newAtmp._id);
+				console.log(`Deleting attempt: ${attemptId}.`);
+				docDelete(Attempt, attemptId);
 
 				interaction.editReply(
 					{ content: `Error collecting response: ${err}.\n\nYour grade was not affected. If this continues, run /skill-assessment again to resume.`, embeds: [], components: [agileContRow] },
