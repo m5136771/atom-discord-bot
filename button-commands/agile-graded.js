@@ -86,10 +86,6 @@ module.exports = {
 			};
 		}
 
-		// Get next question in questionSet and display it.
-		// next question is the next one to not have received an answer
-
-		// nextQuestion is 15 or greater, all questions answered.
 		if (nextQuestionNum >= 15) {
 			console.log('All questions answered.');
 			const correct = SA.qSet.correct.length;
@@ -128,7 +124,6 @@ module.exports = {
 			nextQuestion = questionSet[nextQuestionNum];
 			console.log(`Question Text found: ${nextQuestion.text}`);
 
-			// Display question to student
 			const embed = new EmbedBuilder()
 				.setColor(0x0099FF)
 				.setTitle('Your Question')
@@ -142,32 +137,6 @@ module.exports = {
 
 			const correctResponse = nextQuestion.ans;
 			console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
-
-			/* const lastAtmp = await Attempt
-				.findOne()
-				.where('qs', questionId)
-				.where('student', studentId)
-				.sort({ createdAt: -1 });
-			// console.log(`Last Attempt found: ${lastAtmp}`);
-
-			let lastWstreak = 0;
-			let lastLstreak = 0;
-			let lastEf = 2.5;
-			if (!lastAtmp) {
-				// console.log(`lastAtmp: ${lastAtmp}`);
-			} else {
-				lastWstreak = lastAtmp.wstreak;
-				lastLstreak = lastAtmp.lstreak;
-				lastEf = lastAtmp.ef;
-				// console.log(`lastAtmp wstreak: ${lastWstreak}`);
-				// console.log(`lastAtmp lstreak: ${lastLstreak}`);
-				// console.log(`lastAtmp ef: ${lastEf}`);
-
-				lastAtmp.r_atmp = true;
-				docSave(lastAtmp);
-			}; */
-
-			/* const newAtmp = await Attempt.findById(attemptId); */
 
 			const buttonPressMsg = await interaction.editReply(
 				{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
