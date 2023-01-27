@@ -2,8 +2,6 @@ const { ActionRowBuilder } = require('discord.js');
 const {
 	ans1, ans2,	ans3, ans4,
 
-	endButton, endGradedButton,
-
 	agileButton, agileGradedButton, agileNextButton, agileGradedNextButton,
 	apcspButton, apcspGradedButton, apcspNextButton, apcspGradedNextButton,
 	blenderButton, blenderGradedButton, blenderNextButton, blenderGradedNextButton,
@@ -19,46 +17,46 @@ const ansRow = new ActionRowBuilder()
 
 // Skills
 const agileContRow = new ActionRowBuilder()
-	.addComponents(agileNextButton, endButton);
+	.addComponents(agileNextButton);
 
 const agileGradedContRow = new ActionRowBuilder()
-	.addComponents(agileGradedNextButton, endGradedButton);
+	.addComponents(agileGradedNextButton);
 
 const apcspContRow = new ActionRowBuilder()
-	.addComponents(apcspNextButton, endButton);
+	.addComponents(apcspNextButton);
 
 const apcspGradedContRow = new ActionRowBuilder()
-	.addComponents(apcspGradedNextButton, endGradedButton);
+	.addComponents(apcspGradedNextButton);
 
 const blenderContRow = new ActionRowBuilder()
-	.addComponents(blenderNextButton, endButton);
+	.addComponents(blenderNextButton);
 
 const blenderGradedContRow = new ActionRowBuilder()
-	.addComponents(blenderGradedNextButton, endGradedButton);
+	.addComponents(blenderGradedNextButton);
 
 const hardwareContRow = new ActionRowBuilder()
-	.addComponents(hardwareNextButton, endButton);
+	.addComponents(hardwareNextButton);
 
 const hardwareGradedContRow = new ActionRowBuilder()
-	.addComponents(hardwareGradedNextButton, endGradedButton);
+	.addComponents(hardwareGradedNextButton);
 
 const htmlContRow = new ActionRowBuilder()
-	.addComponents(htmlNextButton, endButton);
+	.addComponents(htmlNextButton);
 
 const htmlGradedContRow = new ActionRowBuilder()
-	.addComponents(htmlGradedNextButton, endGradedButton);
+	.addComponents(htmlGradedNextButton);
 
 const pythonContRow = new ActionRowBuilder()
-	.addComponents(pythonNextButton, endButton);
+	.addComponents(pythonNextButton);
 
 const pythonGradedContRow = new ActionRowBuilder()
-	.addComponents(pythonGradedNextButton, endGradedButton);
+	.addComponents(pythonGradedNextButton);
 
 const unityContRow = new ActionRowBuilder()
-	.addComponents(unityNextButton, endButton);
+	.addComponents(unityNextButton);
 
 const unityGradedContRow = new ActionRowBuilder()
-	.addComponents(unityGradedNextButton, endGradedButton);
+	.addComponents(unityGradedNextButton);
 
 
 // Continuation Rows
