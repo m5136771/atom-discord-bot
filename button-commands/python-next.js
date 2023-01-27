@@ -1,6 +1,6 @@
 /*
 
-	Button Command triggers when selecting quiz name from Init cmd && when continuing practice questions
+	Button Cmd triggers onClick after /practice -> 'Python'
 
 */
 
@@ -8,7 +8,7 @@ const { EmbedBuilder, ComponentType } = require('discord.js');
 const Attempt = require('../db/models/Attempt');
 const Question = require('../db/models/Question');
 const Student = require('../db/models/Student');
-const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursToNext } = require('../helpers/misc');
+const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursToNext, docDelete } = require('../helpers/misc');
 const { ansRow, pythonContRow } = require('../assets/action-rows');
 
 const saName = 'python';
@@ -223,7 +223,23 @@ module.exports = {
 						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [pythonContRow] },
 					);
 				}
-			})
-			.catch(err => console.log(`Error: ${err}\n\n'No interactions were collected.'`));
+			}, (reason => {
+				console.log(`🚫⌛ No response collected!\nReason: ${reason}\n`);
+				console.log(`Deleting attempt: ${newAtmp}.`);
+				docDelete(Attempt, newAtmp._id);
+
+				interaction.editReply(
+					{ content: 'Timed out... you really took your time with this one! Attempt cleared from database; this won\'t affect your stats.', embeds: [], components: [pythonContRow] },
+				);
+			}))
+			.catch(err => {
+				console.log(`🚫⌛ No response collected!\nError: ${err}.`);
+				console.log(`Deleting attempt: ${newAtmp}.`);
+				docDelete(Attempt, newAtmp._id);
+
+				interaction.editReply(
+					{ content: `Error collecting response: ${err}.\n\nYour grade was not affected. If this continues, run /skill-assessment again to resume.`, embeds: [], components: [pythonContRow] },
+				);
+			});
 	},
 };
