@@ -110,8 +110,13 @@ async function docSave(doc) {
 	await doc.save().catch(console.error);
 };
 
+async function docDelete(Model, id) {
+	await Model.deleteOne({ _id: id }).catch(console.error);
+};
+
 module.exports = {
 	daysToNext,
+	docDelete,
 	docSave,
 	easinessCalc,
 	efCalc,

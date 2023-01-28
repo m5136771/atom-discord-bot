@@ -216,22 +216,8 @@ const ans4 = new ButtonBuilder()
 	.setLabel('D')
 	.setStyle(ButtonStyle.Primary);
 
-
-// Skill Assessment Continuation Options
-const endButton = new ButtonBuilder()
-	.setCustomId('practice-end')
-	.setLabel('Submit & End')
-	.setStyle(ButtonStyle.Success);
-
-const endGradedButton = new ButtonBuilder()
-	.setCustomId('graded-end')
-	.setLabel('Submit & End')
-	.setStyle(ButtonStyle.Success);
-
 module.exports = {
 	ans1, ans2,	ans3, ans4,
-
-	endButton, endGradedButton,
 
 	agileButton, agileGradedButton, agileNextButton, agileGradedNextButton,
 	apcspButton, apcspGradedButton, apcspNextButton, apcspGradedNextButton,
