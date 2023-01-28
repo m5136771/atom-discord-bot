@@ -1,6 +1,6 @@
 {
   "name": "atom-discord-bot",
-  "version": "0.2.1",
+  "version": "0.1.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPLV3",
   "dependencies": {
     "@discordjs/builders": "^1.1.0",
     "@discordjs/rest": "^1.0.1",
