@@ -84,7 +84,7 @@ module.exports = {
 		if (questionSet.length === 0) {
 			questionSet = await Question.aggregate([
 				{ $match: { atmp_by: { $in: [studentId] } } },
-				{ $match: { tags: 'agile' } },
+				{ $match: { tags: `${saName}` } },
 				{ $sample: { size: 15 } },
 			]);
 
@@ -103,7 +103,7 @@ module.exports = {
 			};
 		}
 
-		if (nextQuestionNum >= 15) {
+		if (nextQuestionNum >= SA.qSet.qs.length) {
 			console.log('All questions answered.');
 			const correct = SA.qSet.correct.length;
 			const missed = SA.qSet.missed.length;
