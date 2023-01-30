@@ -36,7 +36,7 @@ const embed = new EmbedBuilder()
 	.setDescription('This will begin a **graded** skill assessment.')
 	.addFields(
 		{ name: '⌚ How much time do I have?', value: '90 seconds per question. If you take too long, the answer will be counted as incorrect.' },
-		{ name: '🧮 How are grades calculated?', value: 'You can get 4 questions wrong and still end with 100%.' },
+		{ name: '🧮 How are grades calculated?', value: 'Grades have a lower cap of 50%, and you may get up to 4 questions wrong without penalty.' },
 	);
 
 module.exports = {
