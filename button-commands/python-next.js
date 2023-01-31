@@ -1,6 +1,23 @@
+/* A.T.O.M. - A modern tool for high school education
+ * Copyright (C) 2023  Michael A. DiPaolo
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 /*
 
-	Button Command triggers when selecting quiz name from Init cmd && when continuing practice questions
+	Button Cmd triggers onClick after /practice -> 'Python'
 
 */
 
@@ -8,7 +25,7 @@ const { EmbedBuilder, ComponentType } = require('discord.js');
 const Attempt = require('../db/models/Attempt');
 const Question = require('../db/models/Question');
 const Student = require('../db/models/Student');
-const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursToNext } = require('../helpers/misc');
+const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursToNext, docDelete } = require('../helpers/misc');
 const { ansRow, pythonContRow } = require('../assets/action-rows');
 
 const saName = 'python';
@@ -20,10 +37,9 @@ module.exports = {
 
 	async execute(interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
-		// console.log(`Start time: ${startTime}`);
-		// console.log(`startTimeISO: ${startTimeISO}`);
 
 		// Find Student in DB
 		const student = await Student.findOne({
@@ -40,7 +56,7 @@ module.exports = {
 			.where('student', studentId)
 			.where('tags').in([`${saName}`])
 			.where('r_atmp', false)
-			.sort({ next_up: -1 })
+			.sort({ next_up: 1 })
 
 			.then(
 				(doc) => {
@@ -48,7 +64,6 @@ module.exports = {
 						// console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
-						// console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
 						return doc;
 					}
 				},
@@ -66,8 +81,8 @@ module.exports = {
 			nextQuestion = questionDue;
 		}
 
+		// IF !nextQuestion from next_up, pull random from DB
 		if (!nextQuestion) {
-			// console.log('Querying DB for count...');
 			const queryForCount = await Question
 				.countDocuments()
 				.where('tags').in([`${saName}`])
@@ -98,6 +113,8 @@ module.exports = {
 				.skip(ranNum);
 
 			nextQuestion = questionDocs;
+
+			// Log Question in Student doc as Attempted
 			questionDocs.tot_atmp += 1;
 			const index = questionDocs.atmp_by.indexOf(studentId);
 			if (index === -1) {
@@ -123,9 +140,10 @@ module.exports = {
 		});
 
 		const attemptId = atmp._id;
+
 		docSave(atmp);
 
-		// Send question to student
+		// Display question to student
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
 			.setTitle('Your Question')
@@ -229,7 +247,23 @@ module.exports = {
 						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [embed], components: [pythonContRow] },
 					);
 				}
-			})
-			.catch(err => console.log(`Error: ${err}\n\n'No interactions were collected.'`));
+			}, (reason => {
+				console.log(`🚫⌛ No response collected!\nReason: ${reason}\n`);
+				console.log(`Deleting attempt: ${attemptId}.`);
+				docDelete(Attempt, attemptId);
+
+				interaction.editReply(
+					{ content: 'Timed out... you really took your time with this one! Attempt cleared from database; this won\'t affect your stats.', embeds: [], components: [pythonContRow] },
+				);
+			}))
+			.catch(err => {
+				console.log(`🚫⌛ No response collected!\nError: ${err}.`);
+				console.log(`Deleting attempt: ${attemptId}.`);
+				docDelete(Attempt, attemptId);
+
+				interaction.editReply(
+					{ content: `Error collecting response: ${err}.\n\nYour grade was not affected. If this continues, run /skill-assessment again to resume.`, embeds: [], components: [pythonContRow] },
+				);
+			});
 	},
 };
