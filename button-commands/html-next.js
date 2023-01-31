@@ -219,7 +219,7 @@ module.exports = {
 					docSave(newAtmp);
 
 					i.update(
-						{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up}`, embeds: [], components: [htmlContRow] },
+						{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up}`, embeds: [embed], components: [htmlContRow] },
 					);
 				} else {
 					console.log(`Student: ${student.disc_tag}: ⛔ Incorrect ⌚ Time: ${seconds}`);
@@ -244,7 +244,7 @@ module.exports = {
 					docSave(newAtmp);
 
 					i.update(
-						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [], components: [htmlContRow] },
+						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [embed], components: [htmlContRow] },
 					);
 				}
 			}, (reason => {

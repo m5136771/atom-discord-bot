@@ -26,7 +26,7 @@ const atmpSchema = new Schema({
 	qs: { type: ObjectId, ref: 'Question' },
 
 	ans: { type: Boolean, default: false },
-	ans_sec: { type: Number, max: 90 },
+	ans_sec: Number,
 	ease:  Number,
 
 	wstreak: { type: Number, default: 0 },
