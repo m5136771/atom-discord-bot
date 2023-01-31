@@ -21,7 +21,7 @@ This is an <span style="color:red">in-development Discord bot</span>. The bot in
 - Spaced repetition algorithm based on SuperMemo's [SM-2 Algorithm](https://en.wikipedia.org/wiki/SuperMemo) reintroduces questions to students more frequently when they get them wrong and less frequently the more they get them right.
 - Student data stored in a private [Mongo](https://www.mongodb.com/) database for privacy.
 
-### Pre-Release v0.1.0-alpha
+### v0.3.0-alpha
 
 The first functional version includes two commands:
 
