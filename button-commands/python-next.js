@@ -37,10 +37,9 @@ module.exports = {
 
 	async execute(interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
-		// console.log(`Start time: ${startTime}`);
-		// console.log(`startTimeISO: ${startTimeISO}`);
 
 		// Find Student in DB
 		const student = await Student.findOne({
@@ -57,7 +56,7 @@ module.exports = {
 			.where('student', studentId)
 			.where('tags').in([`${saName}`])
 			.where('r_atmp', false)
-			.sort({ next_up: -1 })
+			.sort({ next_up: 1 })
 
 			.then(
 				(doc) => {
@@ -65,7 +64,6 @@ module.exports = {
 						// console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
-						// console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
 						return doc;
 					}
 				},
@@ -83,8 +81,8 @@ module.exports = {
 			nextQuestion = questionDue;
 		}
 
+		// IF !nextQuestion from next_up, pull random from DB
 		if (!nextQuestion) {
-			// console.log('Querying DB for count...');
 			const queryForCount = await Question
 				.countDocuments()
 				.where('tags').in([`${saName}`])
@@ -115,6 +113,8 @@ module.exports = {
 				.skip(ranNum);
 
 			nextQuestion = questionDocs;
+
+			// Log Question in Student doc as Attempted
 			questionDocs.tot_atmp += 1;
 			questionDocs.atmp_by = studentId;
 			docSave(questionDocs);
@@ -134,9 +134,10 @@ module.exports = {
 		});
 
 		const attemptId = atmp._id;
+
 		docSave(atmp);
 
-		// Send question to student
+		// Display question to student
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
 			.setTitle('Your Question')

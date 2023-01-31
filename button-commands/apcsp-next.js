@@ -30,7 +30,6 @@ const { ansRow, apcspContRow } = require('../assets/action-rows');
 
 const saName = 'apcsp';
 const secPerQuestion = 600000;
-// const secPerQuestion = 103000;
 
 module.exports = {
 	customId: `${saName}-next`,
@@ -38,6 +37,7 @@ module.exports = {
 
 	async execute(interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
 
@@ -56,7 +56,7 @@ module.exports = {
 			.where('student', studentId)
 			.where('tags').in([`${saName}`])
 			.where('r_atmp', false)
-			.sort({ next_up: -1 })
+			.sort({ next_up: 1 })
 
 			.then(
 				(doc) => {
@@ -64,7 +64,6 @@ module.exports = {
 						// console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
-						// console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
 						return doc;
 					}
 				},
@@ -82,6 +81,7 @@ module.exports = {
 			nextQuestion = questionDue;
 		}
 
+		// IF !nextQuestion from next_up, pull random from DB
 		if (!nextQuestion) {
 			const queryForCount = await Question
 				.countDocuments()
@@ -100,11 +100,12 @@ module.exports = {
 				await interaction.editReply(
 					{ content: `You're insane!! You answered every question at least once and you have nothing due today!\nThe next question you have due is for ${n.toDateString()} at ${n.toTimeString()}. (Not necessarily this quiz)`, ephemeral: true, embeds: [], components: [] },
 				);
-				console.log('No more quiz questions.. ending quiz.');
+				console.log(`Student: ${student.disc_tag}: No more quiz questions.. ending quiz.`);
 				return;
 			}
 
 			const ranNum = getRandomInt(0, queryForCount - 1);
+
 			const questionDocs = await Question
 				.findOne()
 				.where('tags').in([`${saName}`])
@@ -112,6 +113,8 @@ module.exports = {
 				.skip(ranNum);
 
 			nextQuestion = questionDocs;
+
+			// Log Question in Student doc as Attempted
 			questionDocs.tot_atmp += 1;
 			questionDocs.atmp_by = studentId;
 			docSave(questionDocs);
@@ -131,9 +134,10 @@ module.exports = {
 		});
 
 		const attemptId = atmp._id;
+
 		docSave(atmp);
 
-		// Send question to student
+		// Display question to student
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
 			.setTitle('Your Question')

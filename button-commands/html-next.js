@@ -37,6 +37,7 @@ module.exports = {
 
 	async execute(interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
 		const startTime = new Date();
 		const startTimeISO = startTime.toISOString();
 
@@ -49,17 +50,13 @@ module.exports = {
 
 		let nextQuestion = undefined;
 
-		// 1. Pull questions, if any, from "next_up" (next_up info is logged into Attempt Docs, which links to student and question)
-		// IF 'reattempted: false', meaning it has only displayed once since creation
-		// and set the one found to 'reattempted: true' so we know this attempt has been sent a second time.
-		// NOTE: This will search attempts from ANY set of questions. Anything this student has due will show up, no matter which quiz selected.
 		const nextUp = await Attempt
 			.findOneAndUpdate({ r_atmp: true })
 			.where('next_up').lte(startTimeISO)
 			.where('student', studentId)
 			.where('tags').in([`${saName}`])
 			.where('r_atmp', false)
-			.sort({ next_up: -1 })
+			.sort({ next_up: 1 })
 
 			.then(
 				(doc) => {
@@ -67,7 +64,6 @@ module.exports = {
 						// console.log('Next Up Queue Empty...');
 					} else {
 						nextQuestion = doc.qs._id;
-						// console.log(`Attempt doc found for next_up.lte(today): ${nextQuestion}\nnextUp = Mongo Doc`);
 						return doc;
 					}
 				},
@@ -85,6 +81,7 @@ module.exports = {
 			nextQuestion = questionDue;
 		}
 
+		// IF !nextQuestion from next_up, pull random from DB
 		if (!nextQuestion) {
 			const queryForCount = await Question
 				.countDocuments()
@@ -108,6 +105,7 @@ module.exports = {
 			}
 
 			const ranNum = getRandomInt(0, queryForCount - 1);
+
 			const questionDocs = await Question
 				.findOne()
 				.where('tags').in([`${saName}`])
@@ -115,6 +113,8 @@ module.exports = {
 				.skip(ranNum);
 
 			nextQuestion = questionDocs;
+
+			// Log Question in Student doc as Attempted
 			questionDocs.tot_atmp += 1;
 			questionDocs.atmp_by = studentId;
 			docSave(questionDocs);
@@ -134,9 +134,10 @@ module.exports = {
 		});
 
 		const attemptId = atmp._id;
+
 		docSave(atmp);
 
-		// Send question to student
+		// Display question to student
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
 			.setTitle('Your Question')
