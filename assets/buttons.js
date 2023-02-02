@@ -97,13 +97,13 @@ const blenderGradedNextButton = new ButtonBuilder()
 const hardwareButton = new ButtonBuilder()
 	.setCustomId('hardware-next')
 	.setLabel('Hardware')
-	.setDisabled(true)
+	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
 const hardwareNextButton = new ButtonBuilder()
 	.setCustomId('hardware-next')
 	.setLabel('Hardware')
-	.setDisabled(true)
+	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
 const hardwareGradedButton = new ButtonBuilder()

@@ -61,12 +61,12 @@ module.exports = {
 			.then(
 				(doc) => {
 					if (doc === null) {
-						console.log('No Assessment In Progress...Starting New Assessment...');
+						// console.log('No Assessment In Progress...Starting New Assessment...');
 						SA = new SkillAssessment();
 						console.log('SA created');
 					} else {
 						SA = doc;
-						console.log('SA in progress found');
+						// console.log('SA in progress found');
 						questionSet = SA.qSet.qs;
 						nextQuestionNum = SA.qSet.answered;
 					}
@@ -76,10 +76,10 @@ module.exports = {
 				},
 			).catch(console.error);
 
-		console.log(`SA: ${SA}`);
+		// console.log(`SA: ${SA}`);
 
-		console.log(`questionSet = ${questionSet}`);
-		console.log(`nextQuestionNum = ${nextQuestionNum}`);
+		// console.log(`questionSet = ${questionSet}`);
+		// console.log(`nextQuestionNum = ${nextQuestionNum}`);
 
 		if (questionSet.length === 0) {
 			questionSet = await Question.aggregate([
@@ -104,7 +104,7 @@ module.exports = {
 		}
 
 		if (nextQuestionNum >= SA.qSet.qs.length) {
-			console.log('All questions answered.');
+			console.log(`${student.disc_tag} is finished.`);
 			const correct = SA.qSet.correct.length;
 			const missed = SA.qSet.missed.length;
 			const percent = ((correct / 15) * 100).toFixed(0);
@@ -137,9 +137,9 @@ module.exports = {
 			).catch(console.error);
 
 		} else {
-			console.log(`Question #${nextQuestionNum} up next!`);
+			// console.log(`Question #${nextQuestionNum} up next!`);
 			nextQuestion = questionSet[nextQuestionNum];
-			console.log(`Question Text found: ${nextQuestion.text}`);
+			// console.log(`Question Text found: ${nextQuestion.text}`);
 
 			const embed = new EmbedBuilder()
 				.setColor(0x0099FF)
@@ -153,7 +153,7 @@ module.exports = {
 				);
 
 			const correctResponse = nextQuestion.ans;
-			console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
+			// console.log(`Correct ans is: ${nextQuestion.ans.toUpperCase()}`);
 
 			const buttonPressMsg = await interaction.editReply(
 				{ content: ' ', ephemeral: true, embeds: [embed], components: [ansRow], fetchReply: true },
@@ -163,12 +163,12 @@ module.exports = {
 			buttonPressMsg.awaitMessageComponent({ componentType: ComponentType.Button, time: secPerQuestion, max: 1 })
 				.then(i => {
 					const endTime = new Date();
-					console.log(`End time: ${endTime}`);
+					// console.log(`End time: ${endTime}`);
 					const seconds = ((endTime - startTime) / 1000).toFixed(1);
-					console.log(`Button pressed was: 〈⦿  ${i.customId.toUpperCase()} 〉`);
+					// console.log(`Button pressed was: 〈⦿  ${i.customId.toUpperCase()} 〉`);
 
 					if (i.customId === correctResponse) {
-						console.log(`✅ Correct response logged! ⌚ Time: ${seconds}`);
+						// console.log(`✅ Correct response logged! ⌚ Time: ${seconds}`);
 
 						SA.qSet.correct.push(SA.qSet.qs[SA.qSet.answered]._id);
 						SA.qSet.answered += 1;
@@ -180,7 +180,7 @@ module.exports = {
 							{ content: `Answer ${i.customId.toUpperCase()} logged.`, embeds: [], components: [agileGradedContRow] },
 						);
 					} else {
-						console.log(`⛔ Incorrect response logged! ⌚ Time: ${seconds}`);
+						// console.log(`⛔ Incorrect response logged! ⌚ Time: ${seconds}`);
 
 						SA.qSet.missed.push(SA.qSet.qs[SA.qSet.answered]._id);
 						SA.qSet.answered += 1;
@@ -194,10 +194,10 @@ module.exports = {
 					}
 				}, (reason => {
 					const endTime = new Date();
-					console.log(`End time: ${endTime}`);
+					// console.log(`End time: ${endTime}`);
 					const seconds = ((endTime - startTime) / 1000).toFixed(1);
 
-					console.log(`🚫⌛ No response collected! ⌚ Time: ${seconds}\nReason: ${reason}`);
+					// console.log(`🚫⌛ No response collected! ⌚ Time: ${seconds}\nReason: ${reason}`);
 
 					SA.qSet.missed.push(SA.qSet.qs[SA.qSet.answered]._id);
 					SA.qSet.answered += 1;
