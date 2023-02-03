@@ -26,7 +26,7 @@ const Attempt = require('../db/models/Attempt');
 const Question = require('../db/models/Question');
 const Student = require('../db/models/Student');
 const { getRandomInt, easinessCalc, efCalc, daysToNext, newDate, docSave, hoursToNext, docDelete } = require('../helpers/misc');
-const { ansRow, agileContRow } = require('../assets/action-rows');
+const { ansRow, hardwareContRow } = require('../assets/action-rows');
 
 const saName = 'hardware';
 const secPerQuestion = 600000;
@@ -219,7 +219,7 @@ module.exports = {
 					docSave(newAtmp);
 
 					i.update(
-						{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up}`, embeds: [embed], components: [agileContRow] },
+						{ content: `✅ Answer ${i.customId.toUpperCase()} is correct!.\nI'll ask you again on ${newAtmp.next_up}`, embeds: [embed], components: [hardwareContRow] },
 					);
 				} else {
 					console.log(`Student: ${student.disc_tag}: ⛔ Incorrect ⌚ Time: ${seconds}`);
@@ -244,7 +244,7 @@ module.exports = {
 					docSave(newAtmp);
 
 					i.update(
-						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [embed], components: [agileContRow] },
+						{ content: `Sorry, ${i.customId.toUpperCase()} is not right. I'll ask you again later.`, embeds: [embed], components: [hardwareContRow] },
 					);
 				}
 			}, (reason => {
@@ -253,7 +253,7 @@ module.exports = {
 				docDelete(Attempt, attemptId);
 
 				interaction.editReply(
-					{ content: 'Timed out... you really took your time with this one! Attempt cleared from database; this won\'t affect your stats.', embeds: [], components: [agileContRow] },
+					{ content: 'Timed out... you really took your time with this one! Attempt cleared from database; this won\'t affect your stats.', embeds: [], components: [hardwareContRow] },
 				);
 			}))
 			.catch(err => {
@@ -262,7 +262,7 @@ module.exports = {
 				docDelete(Attempt, attemptId);
 
 				interaction.editReply(
-					{ content: `Error collecting response: ${err}.\n\nYour grade was not affected. If this continues, run /skill-assessment again to resume.`, embeds: [], components: [agileContRow] },
+					{ content: `Error collecting response: ${err}.\n\nYour grade was not affected. If this continues, run /skill-assessment again to resume.`, embeds: [], components: [hardwareContRow] },
 				);
 			});
 	},
