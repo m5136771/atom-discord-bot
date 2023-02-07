@@ -24,6 +24,7 @@ const {
 	blenderButton, blenderGradedButton, blenderNextButton, blenderGradedNextButton,
 	hardwareButton, hardwareGradedButton, hardwareNextButton, hardwareGradedNextButton,
 	htmlButton, htmlGradedButton, htmlNextButton, htmlGradedNextButton,
+	javascriptButton, javascriptGradedButton, javascriptNextButton, javascriptGradedNextButton,
 	pythonButton, pythonGradedButton, pythonNextButton, pythonGradedNextButton,
 	unityButton, unityGradedButton, unityNextButton, unityGradedNextButton,
 } = require('../assets/buttons');
@@ -63,6 +64,12 @@ const htmlContRow = new ActionRowBuilder()
 const htmlGradedContRow = new ActionRowBuilder()
 	.addComponents(htmlGradedNextButton);
 
+const javascriptContRow = new ActionRowBuilder()
+	.addComponents(javascriptNextButton);
+
+const javascriptGradedContRow = new ActionRowBuilder()
+	.addComponents(javascriptGradedNextButton);
+
 const pythonContRow = new ActionRowBuilder()
 	.addComponents(pythonNextButton);
 
@@ -78,13 +85,13 @@ const unityGradedContRow = new ActionRowBuilder()
 
 // Continuation Rows
 const SAOptionsRow1 = new ActionRowBuilder()
-	.addComponents(agileButton, apcspButton, blenderButton);
+	.addComponents(agileButton, apcspButton, blenderButton, hardwareButton);
 
 const SAOptionsRow2 = new ActionRowBuilder()
-	.addComponents(hardwareButton, htmlButton, pythonButton, unityButton);
+	.addComponents(htmlButton, javascriptButton, pythonButton, unityButton);
 
 const GradedSAOptionsRow1 = new ActionRowBuilder()
-	.addComponents(agileGradedButton, apcspGradedButton, blenderGradedButton);
+	.addComponents(agileGradedButton, apcspGradedButton, blenderGradedButton, javascriptGradedButton);
 
 const GradedSAOptionsRow2 = new ActionRowBuilder()
 	.addComponents(hardwareGradedButton, htmlGradedButton, pythonGradedButton, unityGradedButton);
@@ -102,6 +109,8 @@ module.exports = {
 	hardwareGradedContRow,
 	htmlContRow,
 	htmlGradedContRow,
+	javascriptContRow,
+	javascriptGradedContRow,
 	pythonContRow,
 	pythonGradedContRow,
 	unityContRow,
