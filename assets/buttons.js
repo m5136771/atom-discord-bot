@@ -144,6 +144,31 @@ const htmlGradedNextButton = new ButtonBuilder()
 	.setDisabled(false)
 	.setStyle(ButtonStyle.Primary);
 
+// JavaScript
+const javascriptButton = new ButtonBuilder()
+	.setCustomId('javascript-next')
+	.setLabel('JavaScript')
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const javascriptNextButton = new ButtonBuilder()
+	.setCustomId('javascript-next')
+	.setLabel('Next Question')
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const javascriptGradedButton = new ButtonBuilder()
+	.setCustomId('javascript-graded')
+	.setLabel('JavaScript')
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
+const javascriptGradedNextButton = new ButtonBuilder()
+	.setCustomId('javascript-graded')
+	.setLabel('Next Question')
+	.setDisabled(false)
+	.setStyle(ButtonStyle.Primary);
+
 
 // Python
 const pythonButton = new ButtonBuilder()
@@ -224,6 +249,7 @@ module.exports = {
 	blenderButton, blenderGradedButton, blenderNextButton, blenderGradedNextButton,
 	hardwareButton, hardwareGradedButton, hardwareNextButton, hardwareGradedNextButton,
 	htmlButton, htmlGradedButton, htmlNextButton, htmlGradedNextButton,
+	javascriptButton, javascriptGradedButton, javascriptNextButton, javascriptGradedNextButton,
 	pythonButton, pythonGradedButton, pythonNextButton, pythonGradedNextButton,
 	unityButton, unityGradedButton, unityNextButton, unityGradedNextButton,
 };
